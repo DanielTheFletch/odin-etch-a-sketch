@@ -2,6 +2,26 @@
 /* The Odin Project: Foundations */
 /* Etch-a-Sketch */
 
+
+/* --- GENERAL PROPERTIES --- */
+body {
+  margin: 0;
+}
+
+
+/* --- MENU BAR --- */
+.menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: purple;
+  margin: 0;
+  padding: 10px;
+}
+
+
+/* --- CANVAS & DRAWING --- */
 .container {
   display: flex;
   flex-wrap: wrap;

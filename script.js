@@ -25,11 +25,15 @@ function createGrid(n)
 // Remove current grid from the DOM tree
 function clearGrid()
 {
+    // Clear current container
+    const main = document.querySelector('main');
     const oldContainer = document.querySelector('.container');
-    document.body.removeChild(oldContainer);
+    main.removeChild(oldContainer);
+
+    // Generate new (empty) container
     const newContainer = document.createElement('div');
     newContainer.classList.add('container');
-    document.body.appendChild(newContainer);
+    main.appendChild(newContainer);
 }
 
 
