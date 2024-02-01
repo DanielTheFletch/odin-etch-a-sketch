@@ -1,8 +1,5 @@
 # Project Title
 
-Project description (for repository):
-My implementation of the "Landing Page" project from the Foundations course at The Odin Project.
-
 Project description (for README):
 Placeholder text.
 
