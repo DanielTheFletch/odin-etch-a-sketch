@@ -10,7 +10,7 @@
 */
 
 
-// Global variables
+// Global variables for managing state
 let penClickRequired = true;
 let clickHeld = false;
 
@@ -24,8 +24,11 @@ function createGrid(n)
         const square = document.createElement('div');
         square.classList.add('square');
         square.style.flex = `1 0 ${(1 / n) * 100}%`;
+        square.draggable = false;
     
         square.addEventListener("pointerover", penHover);
+        square.addEventListener("mousedown", penClick);
+
         container.appendChild(square);
     }
 }
@@ -46,10 +49,10 @@ function clearGrid()
 }
 
 
+// Initialize event handler for pen toggle button
 function initPenToggle()
 {
     const toggleButton = document.querySelector('.menu-button-pen');
-
     toggleButton.addEventListener("click", toggleColors);
     toggleButton.addEventListener("click", togglePenClickRequired);
 }
@@ -77,8 +80,10 @@ function initialize(gridSize = 16)
     createGrid(16);
     input.value = currentSize;
 
-    document.body.addEventListener("mousedown", toggleClickHeld);
-    document.body.addEventListener("mouseup", toggleClickUnheld);
+    // Event listeners for pen functionality
+    const container = document.querySelector('.container');
+    container.addEventListener("mousedown", toggleClickHeld);
+    container.addEventListener("mouseup", toggleClickUnheld);
 }
 
 
@@ -107,6 +112,13 @@ function penHover(event)
     {
         this.style.backgroundColor = 'black';
     }
+}
+
+
+// Squares: Listen for pen click
+function penClick(event)
+{
+    this.style.backgroundColor = 'black';
 }
 
 
