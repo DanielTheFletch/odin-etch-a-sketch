@@ -41,6 +41,16 @@ body {
   opacity: 75%;
 }
 
+.toggle-off {
+  background-color: white;
+  color: black;
+}
+
+.toggle-on {
+  background-color: black;
+  color: white;
+}
+
 
 /* --- CANVAS & DRAWING --- */
 .container {

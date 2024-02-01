@@ -37,6 +37,27 @@ function clearGrid()
 }
 
 
+function initPenToggle()
+{
+    const toggleButton = document.querySelector('.menu-button-pen');
+
+    toggleButton.addEventListener("click", () => {
+        if (toggleButton.classList.contains('toggle-off'))
+        {
+            // Toggle: OFF -> ON
+            toggleButton.classList.remove('toggle-off');
+            toggleButton.classList.add('toggle-on');
+        }
+        else
+        {
+            // Toggle: ON -> OFF
+            toggleButton.classList.remove('toggle-on');
+            toggleButton.classList.add('toggle-off');
+        }
+    });
+}
+
+
 // Initialize event handlers and create starting grid
 function initialize(gridSize = 16)
 {
@@ -46,6 +67,9 @@ function initialize(gridSize = 16)
     const dialog = document.querySelector('dialog');
     const input = document.querySelector('#prompt-input');
     let currentSize = gridSize;
+
+    // Event handlers
+    initPenToggle();
 
     // Event handler: Open grid re-size prompt on button click
     changeButton.addEventListener("click", () => {
