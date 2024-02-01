@@ -14,6 +14,17 @@
   </head>
 
   <body>
+    <button class="button-prompt">Change grid size</button>
+
+    <dialog id="prompt-dialog">
+      <p>Enter a new size for the grid between 1-100.</p>
+      <form method="dialog">
+        <label for="prompt-input">Grid size: </label>
+        <input id="prompt-input" type="text" autocomplete="off">
+        <button class="button-submit">Submit</button>
+      </form>
+    </dialog>
+
     <div class="container"></div>
   </body>
 </html>
