@@ -1,3 +1,17 @@
 /* Daniel Fletcher */
 /* The Odin Project: Foundations */
 /* Etch-a-Sketch */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+  border: 3px solid black;
+  height: 810px;
+  width: 810px;
+}
+
+.square {
+  border: 3px solid black;
+  box-sizing: border-box;
+}
