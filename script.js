@@ -3,6 +3,13 @@
 // Etch-a-Sketch
 
 
+/* 
+    ========================
+       CORE FUNCTIONALITY
+    ========================
+*/
+
+
 // Create square grid of size (n * n)
 function createGrid(n)
 {
@@ -13,10 +20,7 @@ function createGrid(n)
         square.classList.add('square');
         square.style.flex = `1 0 ${(1 / n) * 100}%`;
     
-        square.addEventListener("pointerover", function() {
-            this.style.backgroundColor = 'black';
-        });
-    
+        square.addEventListener("pointerover", penHover);
         container.appendChild(square);
     }
 }
@@ -41,20 +45,7 @@ function initPenToggle()
 {
     const toggleButton = document.querySelector('.menu-button-pen');
 
-    toggleButton.addEventListener("click", () => {
-        if (toggleButton.classList.contains('toggle-off'))
-        {
-            // Toggle: OFF -> ON
-            toggleButton.classList.remove('toggle-off');
-            toggleButton.classList.add('toggle-on');
-        }
-        else
-        {
-            // Toggle: ON -> OFF
-            toggleButton.classList.remove('toggle-on');
-            toggleButton.classList.add('toggle-off');
-        }
-    });
+    toggleButton.addEventListener("click", toggleColors);
 }
 
 
@@ -72,24 +63,10 @@ function initialize(gridSize = 16)
     initPenToggle();
 
     // Event handler: Open grid re-size prompt on button click
-    changeButton.addEventListener("click", () => {
-        dialog.showModal();
-    });
+    changeButton.addEventListener("click", showDialog);
 
     // Event handler: Process new grid size on button click
-    submitButton.addEventListener("click", () => {
-        const newSize = parseInt(input.value);
-
-        if (newSize && newSize > 0 && newSize <= 100)
-        {
-            clearGrid();
-            createGrid(newSize);
-            currentSize = newSize;
-        }
-
-        input.value = currentSize;
-        dialog.close();
-    });
+    submitButton.addEventListener("click", closeDialog);
 
     // Initial grid size
     createGrid(16);
@@ -98,3 +75,65 @@ function initialize(gridSize = 16)
 
 
 initialize();
+
+
+// -------------------------------------------------------
+
+
+/* 
+    =====================
+       EVENT LISTENERS
+    =====================
+*/
+
+
+// Squares: Listen for pen hover
+function penHover(event)
+{
+    this.style.backgroundColor = 'black';
+}
+
+
+// Toggle button: Change colors
+function toggleColors(event)
+{
+    if (this.classList.contains('toggle-off'))
+    {
+        // Toggle: OFF -> ON
+        this.classList.remove('toggle-off');
+        this.classList.add('toggle-on');
+    }
+    else
+    {
+        // Toggle: ON -> OFF
+        this.classList.remove('toggle-on');
+        this.classList.add('toggle-off');
+    }
+}
+
+
+// Dialog: Show dialog
+function showDialog(event)
+{
+    const dialog = document.querySelector('dialog');
+    dialog.showModal();
+}
+
+
+// Dialog: Close and process amount
+function closeDialog(event)
+{
+    const dialog = document.querySelector('dialog');
+    const input = document.querySelector('input');
+    const newSize = parseInt(input.value);
+
+    if (newSize && newSize > 0 && newSize <= 100)
+    {
+        clearGrid();
+        createGrid(newSize);
+        currentSize = newSize;
+    }
+
+    input.value = currentSize;
+    dialog.close();
+}
