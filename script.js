@@ -9,5 +9,10 @@ for (let i = 0; i < 256; i++)
     const square = document.createElement('div');
     square.classList.add('square');
     square.style.flex = `1 0 ${(1 / 16) * 100}%`;
+
+    square.addEventListener("pointerover", function() {
+        this.style.backgroundColor = 'black';
+    });
+
     container.appendChild(square);
 }
