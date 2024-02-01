@@ -10,6 +10,11 @@
 */
 
 
+// Global variables
+let penClickRequired = true;
+let clickHeld = false;
+
+
 // Create square grid of size (n * n)
 function createGrid(n)
 {
@@ -46,6 +51,7 @@ function initPenToggle()
     const toggleButton = document.querySelector('.menu-button-pen');
 
     toggleButton.addEventListener("click", toggleColors);
+    toggleButton.addEventListener("click", togglePenClickRequired);
 }
 
 
@@ -55,7 +61,6 @@ function initialize(gridSize = 16)
     // Helper variables
     const changeButton = document.querySelector('.button-prompt');
     const submitButton = document.querySelector('.button-submit');
-    const dialog = document.querySelector('dialog');
     const input = document.querySelector('#prompt-input');
     let currentSize = gridSize;
 
@@ -71,6 +76,9 @@ function initialize(gridSize = 16)
     // Initial grid size
     createGrid(16);
     input.value = currentSize;
+
+    document.body.addEventListener("mousedown", toggleClickHeld);
+    document.body.addEventListener("mouseup", toggleClickUnheld);
 }
 
 
@@ -90,11 +98,24 @@ initialize();
 // Squares: Listen for pen hover
 function penHover(event)
 {
-    this.style.backgroundColor = 'black';
+    if (!penClickRequired)
+    {
+        this.style.backgroundColor = 'black';
+    }
+
+    else if (clickHeld)
+    {
+        this.style.backgroundColor = 'black';
+    }
 }
 
 
-// Toggle button: Change colors
+// Container: Maintain clickHeld state
+function toggleClickHeld(event) { clickHeld = true; }
+function toggleClickUnheld(event) { clickHeld = false; }
+
+
+// Any toggle button: Change colors
 function toggleColors(event)
 {
     if (this.classList.contains('toggle-off'))
@@ -112,6 +133,13 @@ function toggleColors(event)
 }
 
 
+// Pen toggle: Maintain penClickRequired state
+function togglePenClickRequired(event)
+{
+    penClickRequired = !penClickRequired;
+}
+
+
 // Dialog: Show dialog
 function showDialog(event)
 {
@@ -120,7 +148,7 @@ function showDialog(event)
 }
 
 
-// Dialog: Close and process amount
+// Dialog: Close dialog and process input field
 function closeDialog(event)
 {
     const dialog = document.querySelector('dialog');
