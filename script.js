@@ -4,14 +4,14 @@
 
 
 /* 
-    ========================
-       CORE FUNCTIONALITY
-    ========================
+========================
+   CORE FUNCTIONALITY
+========================
 */
 
 
 // Global variables for managing state
-let penClickRequired = true;
+let clickRequired = true;
 let clickHeld = false;
 
 
@@ -49,41 +49,45 @@ function clearGrid()
 }
 
 
-// Initialize event handler for pen toggle button
-function initPenToggle()
+// Initialize button to change grid size
+function initGridSizeButton()
 {
+    // Capture buttons
+    const changeButton = document.querySelector('.button-prompt');
+    const submitButton = document.querySelector('.button-submit');
+
+    // Add event handlers
+    changeButton.addEventListener("click", showDialog);
+    submitButton.addEventListener("click", closeDialog);
+}
+
+
+// Initialize event handler for pen toggle button
+function initPenToggleButton()
+{
+    // Add event listeners for button
     const toggleButton = document.querySelector('.menu-button-pen');
     toggleButton.addEventListener("click", toggleColors);
-    toggleButton.addEventListener("click", togglePenClickRequired);
+    toggleButton.addEventListener("click", toggleClickRequired);
+
+    // Add event listeners for "mouse required" pen functionality
+    const container = document.querySelector('.container');
+    container.addEventListener("mousedown", toggleClickHeld);
+    container.addEventListener("mouseup", toggleClickUnheld);
 }
 
 
 // Initialize event handlers and create starting grid
 function initialize(gridSize = 16)
 {
-    // Helper variables
-    const changeButton = document.querySelector('.button-prompt');
-    const submitButton = document.querySelector('.button-submit');
+    // Set initial grid size
+    createGrid(gridSize);
     const input = document.querySelector('#prompt-input');
-    let currentSize = gridSize;
+    input.value = gridSize;
 
-    // Event handlers
-    initPenToggle();
-
-    // Event handler: Open grid re-size prompt on button click
-    changeButton.addEventListener("click", showDialog);
-
-    // Event handler: Process new grid size on button click
-    submitButton.addEventListener("click", closeDialog);
-
-    // Initial grid size
-    createGrid(16);
-    input.value = currentSize;
-
-    // Event listeners for pen functionality
-    const container = document.querySelector('.container');
-    container.addEventListener("mousedown", toggleClickHeld);
-    container.addEventListener("mouseup", toggleClickUnheld);
+    // Initialize menu buttons and corresponding event listeners
+    initPenToggleButton();
+    initGridSizeButton();
 }
 
 
@@ -94,16 +98,16 @@ initialize();
 
 
 /* 
-    =====================
-       EVENT LISTENERS
-    =====================
+==============================
+   EVENT LISTENERS: GENERAL
+==============================
 */
 
 
 // Squares: Listen for pen hover
 function penHover(event)
 {
-    if (!penClickRequired)
+    if (!clickRequired)
     {
         this.style.backgroundColor = 'black';
     }
@@ -120,11 +124,6 @@ function penClick(event)
 {
     this.style.backgroundColor = 'black';
 }
-
-
-// Container: Maintain clickHeld state
-function toggleClickHeld(event) { clickHeld = true; }
-function toggleClickUnheld(event) { clickHeld = false; }
 
 
 // Any toggle button: Change colors
@@ -145,13 +144,6 @@ function toggleColors(event)
 }
 
 
-// Pen toggle: Maintain penClickRequired state
-function togglePenClickRequired(event)
-{
-    penClickRequired = !penClickRequired;
-}
-
-
 // Dialog: Show dialog
 function showDialog(event)
 {
@@ -163,6 +155,7 @@ function showDialog(event)
 // Dialog: Close dialog and process input field
 function closeDialog(event)
 {
+    let currentSize;
     const dialog = document.querySelector('dialog');
     const input = document.querySelector('input');
     const newSize = parseInt(input.value);
@@ -177,3 +170,22 @@ function closeDialog(event)
     input.value = currentSize;
     dialog.close();
 }
+
+
+// -------------------------------------------------------
+
+
+/* 
+=====================================
+   EVENT LISTENERS: MANAGING STATE
+=====================================
+*/
+
+
+// Container: Maintain clickHeld state
+function toggleClickHeld(event) { clickHeld = true; }
+function toggleClickUnheld(event) { clickHeld = false; }
+
+
+// Pen toggle: Maintain clickRequired state
+function toggleClickRequired(event) { clickRequired = !clickRequired; }
