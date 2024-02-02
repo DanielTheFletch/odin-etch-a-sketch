@@ -60,9 +60,6 @@ function setColor(element, color)
 {
     if (element.style.backgroundColor !== color)
     {
-        console.log(`Changing ${element.style.backgroundColor.toUpperCase()} square to ${color.toUpperCase()}`);
-        console.trace();
-    
         // Track action for undo
         if (undoStack.length >= 100) { undoStack.shift(); }
         undoStack.push({ item: element, color: element.style.backgroundColor });
@@ -198,8 +195,6 @@ function undoAction(event)
     if (undoStack.length > 0)
     {
         const action = undoStack.pop();
-        console.log('Action popped:');
-        console.log(action);
         action.item.style.backgroundColor = action.color;
     }
 }
