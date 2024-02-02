@@ -24,11 +24,10 @@ function createGrid(n)
         const square = document.createElement('div');
         square.classList.add('square');
         square.style.flex = `1 0 ${(1 / n) * 100}%`;
-        square.draggable = false;
+        square.setAttribute('draggable', 'false');
     
-        square.addEventListener("pointerover", penHover);
-        square.addEventListener("mousedown", penClick);
-
+        square.addEventListener('pointerover', penHover);
+        square.addEventListener('pointerdown', penClick);
         container.appendChild(square);
     }
 }
@@ -56,28 +55,29 @@ function initGridSizeButton()
     const changeButton = document.querySelector('.button-prompt');
     const submitButton = document.querySelector('.button-submit');
 
-    // Add event handlers
-    changeButton.addEventListener("click", showDialog);
-    submitButton.addEventListener("click", closeDialog);
+    // Add event listeners
+    changeButton.addEventListener('click', showDialog);
+    submitButton.addEventListener('click', closeDialog);
 }
 
 
-// Initialize event handler for pen toggle button
+// Initialize event listener for pen toggle button
 function initPenToggleButton()
 {
     // Add event listeners for button
     const toggleButton = document.querySelector('.menu-button-pen');
-    toggleButton.addEventListener("click", toggleColors);
-    toggleButton.addEventListener("click", toggleClickRequired);
+    toggleButton.addEventListener('click', toggleColors);
+    toggleButton.addEventListener('click', toggleClickRequired);
 
     // Add event listeners for "mouse required" pen functionality
-    const container = document.querySelector('.container');
-    container.addEventListener("mousedown", toggleClickHeld);
-    container.addEventListener("mouseup", toggleClickUnheld);
+    document.body.addEventListener('pointerdown', toggleClickHeld);
+    document.body.addEventListener('pointerup', toggleClickUnheld);
+    document.body.addEventListener('dragstart', disableDrag);
+    document.body.addEventListener('dragend', disableDrag);
 }
 
 
-// Initialize event handlers and create starting grid
+// Initialize event listeners and create starting grid
 function initialize(gridSize = 16)
 {
     // Set initial grid size
@@ -116,6 +116,14 @@ function penHover(event)
     {
         this.style.backgroundColor = 'black';
     }
+}
+
+
+// Container: Disable dragging functionality to prevent unexpected behavior
+function disableDrag(event)
+{
+    event.preventDefault();
+    event.stopPropagation();
 }
 
 
