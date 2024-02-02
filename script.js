@@ -60,8 +60,8 @@ function setColor(element, color)
 {
     // Track action for undo
     actionStack.push({
-        oldElement: element,
-        oldStyle: element.style
+        item: element,
+        color: element.style.backgroundColor
     });
 
     // Update color
@@ -99,7 +99,7 @@ function initGridSizeButton()
 }
 
 
-// Initialize event listener for pen toggle button
+// Initialize event listeners for pen toggle button
 function initPenToggleButton()
 {
     // Add event listeners for button
@@ -115,6 +115,14 @@ function initPenToggleButton()
 }
 
 
+// Initialize event listeners for undo button
+function initUndoButton()
+{
+    const undoButton = document.querySelector('.menu-button-undo');
+    undoButton.addEventListener('click', undoAction);
+}
+
+
 // Initialize event listeners and create starting grid
 function initialize(gridSize = 16)
 {
@@ -126,6 +134,7 @@ function initialize(gridSize = 16)
     // Initialize menu buttons and corresponding event listeners
     initPenToggleButton();
     initGridSizeButton();
+    initUndoButton();
 }
 
 
@@ -171,6 +180,18 @@ function penExit(event)
 function penClick(event)
 {
     setColor(this, 'black');
+}
+
+
+// Undo
+function undoAction(event)
+{
+    if (actionStack.length > 0)
+    {
+        console.log('Popping...');
+        const action = actionStack.pop();
+        action.item.style.backgroundColor = action.color;
+    }
 }
 
 
