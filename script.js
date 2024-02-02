@@ -13,6 +13,7 @@
 // Global variables for managing state
 let clickRequired = true;
 let clickHeld = false;
+let currentSquareColor = 'white';
 
 
 // Create square grid of size (n * n)
@@ -21,13 +22,18 @@ function createGrid(n)
     const container = document.querySelector('.container');
     for (let i = 0; i < (n * n); i++)
     {
+        // Create square element (div)
         const square = document.createElement('div');
         square.classList.add('square');
         square.style.flex = `1 0 ${(1 / n) * 100}%`;
         square.setAttribute('draggable', 'false');
     
-        square.addEventListener('pointerover', penHover);
+        // Add event listeners
+        square.addEventListener('pointerover', penEnter);
+        square.addEventListener('pointerout', penExit);
         square.addEventListener('pointerdown', penClick);
+        
+        // Add square to DOM tree
         container.appendChild(square);
     }
 }
@@ -46,6 +52,30 @@ function clearGrid()
     newContainer.classList.add('container');
     main.appendChild(newContainer);
 }
+
+
+// Square: Set color of individual square
+function setColor(element, color)
+{
+    element.style.backgroundColor = color;
+    currentSquareColor = color;
+    unshowHoverPreview(element);
+}
+
+
+// Square: Toggle hover preview when using "mouse required" mode
+function showHoverPreview(element) { element.style.border = `3px solid #C0A08060`; }
+function unshowHoverPreview(element) { element.style.border = `3px solid black`; }
+
+
+// -------------------------------------------------------
+
+
+/* 
+=========================
+   PAGE INITIALIZATION
+=========================
+*/
 
 
 // Initialize button to change grid size
@@ -104,18 +134,35 @@ initialize();
 */
 
 
-// Squares: Listen for pen hover
-function penHover(event)
+// Squares: Listen for pen entering
+function penEnter(event)
 {
-    if (!clickRequired)
+    currentSquareColor = this.style.backgroundColor;
+
+    if (clickRequired)
     {
-        this.style.backgroundColor = 'black';
+        if (!clickHeld)
+            showHoverPreview(this);
+        else
+            setColor(this, 'black');
     }
 
-    else if (clickHeld)
-    {
-        this.style.backgroundColor = 'black';
-    }
+    else
+        setColor(this, 'black');
+}
+
+
+// Squares: Listen for pen exiting
+function penExit(event)
+{
+    unshowHoverPreview(this);
+}
+
+
+// Squares: Listen for pen click
+function penClick(event)
+{
+    setColor(this, 'black');
 }
 
 
@@ -124,13 +171,6 @@ function disableDrag(event)
 {
     event.preventDefault();
     event.stopPropagation();
-}
-
-
-// Squares: Listen for pen click
-function penClick(event)
-{
-    this.style.backgroundColor = 'black';
 }
 
 
