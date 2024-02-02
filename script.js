@@ -30,8 +30,8 @@ function createGrid(n)
         square.setAttribute('draggable', 'false');
     
         // Add event listeners
-        square.addEventListener('pointerover', penEnter);
-        square.addEventListener('pointerout', penExit);
+        square.addEventListener('pointerenter', penEnter);
+        square.addEventListener('pointerleave', penExit);
         square.addEventListener('pointerdown', penClick);
         
         // Add square to DOM tree
@@ -58,14 +58,20 @@ function clearGrid()
 // Square: Set color of individual square
 function setColor(element, color)
 {
-    // Track action for undo
-    if (actionStack.length >= 100) { actionStack.shift(); }
-    actionStack.push({ item: element, color: element.style.backgroundColor });
-
-    // Update color
-    element.style.backgroundColor = color;
-    currentSquareColor = color;
-    unshowHoverPreview(element);
+    if (element.style.backgroundColor !== color)
+    {
+        console.log(`Changing ${element.style.backgroundColor.toUpperCase()} square to ${color.toUpperCase()}`);
+        console.trace();
+    
+        // Track action for undo
+        if (actionStack.length >= 100) { actionStack.shift(); }
+        actionStack.push({ item: element, color: element.style.backgroundColor });
+    
+        // Update color
+        element.style.backgroundColor = color;
+        currentSquareColor = color;
+        unshowHoverPreview(element);
+    }
 }
 
 
@@ -164,6 +170,9 @@ function penEnter(event)
 
     else
         setColor(this, 'black');
+
+    event.preventDefault();
+    event.stopPropagation();
 }
 
 
@@ -171,6 +180,8 @@ function penEnter(event)
 function penExit(event)
 {
     unshowHoverPreview(this);
+    event.preventDefault();
+    event.stopPropagation();
 }
 
 
@@ -187,6 +198,8 @@ function undoAction(event)
     if (actionStack.length > 0)
     {
         const action = actionStack.pop();
+        console.log('Action popped:');
+        console.log(action);
         action.item.style.backgroundColor = action.color;
     }
 }
