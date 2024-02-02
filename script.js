@@ -11,6 +11,7 @@
 
 
 // Global variables for managing state
+const actionStack = [];
 let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = 'white';
@@ -57,6 +58,13 @@ function clearGrid()
 // Square: Set color of individual square
 function setColor(element, color)
 {
+    // Track action for undo
+    actionStack.push({
+        oldElement: element,
+        oldStyle: element.style
+    });
+
+    // Update color
     element.style.backgroundColor = color;
     currentSquareColor = color;
     unshowHoverPreview(element);
