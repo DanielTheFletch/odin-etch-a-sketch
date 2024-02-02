@@ -59,10 +59,8 @@ function clearGrid()
 function setColor(element, color)
 {
     // Track action for undo
-    actionStack.push({
-        item: element,
-        color: element.style.backgroundColor
-    });
+    if (actionStack.length >= 100) { actionStack.shift(); }
+    actionStack.push({ item: element, color: element.style.backgroundColor });
 
     // Update color
     element.style.backgroundColor = color;
@@ -183,12 +181,11 @@ function penClick(event)
 }
 
 
-// Undo
+// Pop action from stack and perform undo
 function undoAction(event)
 {
     if (actionStack.length > 0)
     {
-        console.log('Popping...');
         const action = actionStack.pop();
         action.item.style.backgroundColor = action.color;
     }
