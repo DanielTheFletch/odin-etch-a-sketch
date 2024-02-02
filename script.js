@@ -11,7 +11,7 @@
 
 
 // Global variables for managing state
-const actionStack = [];
+const undoStack = [];
 let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = 'white';
@@ -64,8 +64,8 @@ function setColor(element, color)
         console.trace();
     
         // Track action for undo
-        if (actionStack.length >= 100) { actionStack.shift(); }
-        actionStack.push({ item: element, color: element.style.backgroundColor });
+        if (undoStack.length >= 100) { undoStack.shift(); }
+        undoStack.push({ item: element, color: element.style.backgroundColor });
     
         // Update color
         element.style.backgroundColor = color;
@@ -195,9 +195,9 @@ function penClick(event)
 // Pop action from stack and perform undo
 function undoAction(event)
 {
-    if (actionStack.length > 0)
+    if (undoStack.length > 0)
     {
-        const action = actionStack.pop();
+        const action = undoStack.pop();
         console.log('Action popped:');
         console.log(action);
         action.item.style.backgroundColor = action.color;
