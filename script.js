@@ -108,11 +108,11 @@ function initPenToggleButton()
     toggleButton.addEventListener('click', toggleColors);
     toggleButton.addEventListener('click', toggleClickRequired);
 
-    // Add event listeners for "mouse required" pen functionality
-    document.body.addEventListener('pointerdown', toggleClickHeld);
-    document.body.addEventListener('pointerup', toggleClickUnheld);
-    document.body.addEventListener('dragstart', disableDrag);
-    document.body.addEventListener('dragend', disableDrag);
+    // Add global event listeners for "mouse required" pen functionality
+    addEventListener('pointerdown', toggleClickHeld);
+    addEventListener('pointerup', toggleClickUnheld);
+    addEventListener('dragstart', disableDrag);
+    addEventListener('dragend', disableDrag);
 }
 
 
