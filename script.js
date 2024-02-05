@@ -106,8 +106,8 @@ function rgbConvert(hex)
 function initGridSizeButton()
 {
     // Capture buttons
-    const gridButton = document.querySelector('.menu-button-grid');
-    const submitButton = document.querySelector('.submit-button-grid');
+    const gridButton = document.querySelector('.menu-button-grid-size');
+    const submitButton = document.querySelector('.submit-button-grid-size');
 
     // Add event listeners
     gridButton.addEventListener('click', showDialogGridSize);
