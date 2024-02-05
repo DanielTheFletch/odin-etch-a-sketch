@@ -57,8 +57,11 @@ function clearGrid()
 
 
 // Square: Set color of individual square
-function setColor(element, color)
+function setColor(element)
 {
+    // Convert selected color to match backgroundColor format
+    const color = rgbConvert(selectedColor);
+
     if (element.style.backgroundColor !== color)
     {
         // Track action for undo
@@ -76,6 +79,17 @@ function setColor(element, color)
 // Square: Toggle hover preview when using "mouse required" mode
 function showHoverPreview(element) { element.style.border = `3px solid #C0A08060`; }
 function unshowHoverPreview(element) { element.style.border = `3px solid black`; }
+
+
+// Selected color: Convert selected color to rgb() style string
+function rgbConvert(hex)
+{
+    const red = hex.substring(1, 3);
+    const green = hex.substring(3, 5);
+    const blue = hex.substring(5, 7);
+
+    return `rgb(${parseInt(red, 16)}, ${parseInt(green, 16)}, ${parseInt(blue, 16)})`;
+}
 
 
 // -------------------------------------------------------
@@ -177,11 +191,11 @@ function penEnter(event)
         if (!clickHeld)
             showHoverPreview(this);
         else
-            setColor(this, selectedColor);
+            setColor(this);
     }
 
     else
-        setColor(this, selectedColor);
+        setColor(this);
 
     event.preventDefault();
     event.stopPropagation();
@@ -200,7 +214,7 @@ function penExit(event)
 // Squares: Listen for pen click
 function penClick(event)
 {
-    setColor(this, selectedColor);
+    setColor(this);
 }
 
 
