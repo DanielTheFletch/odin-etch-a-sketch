@@ -14,7 +14,8 @@
 const undoStack = [];
 let clickRequired = true;
 let clickHeld = false;
-let currentSquareColor = 'white';
+let currentSquareColor = '#ffffff';
+let selectedColor = '#000000';
 
 
 // Create square grid of size (n * n)
@@ -176,11 +177,11 @@ function penEnter(event)
         if (!clickHeld)
             showHoverPreview(this);
         else
-            setColor(this, 'black');
+            setColor(this, selectedColor);
     }
 
     else
-        setColor(this, 'black');
+        setColor(this, selectedColor);
 
     event.preventDefault();
     event.stopPropagation();
@@ -199,7 +200,7 @@ function penExit(event)
 // Squares: Listen for pen click
 function penClick(event)
 {
-    setColor(this, 'black');
+    setColor(this, selectedColor);
 }
 
 
@@ -279,10 +280,8 @@ function closeDialogPenColor(event)
 {
     const dialog = document.querySelector('#dialog-pen-color');
     const input = document.querySelector('#input-pen-color');
-    const newColor = input.value;
 
-    console.log(newColor);
-
+    selectedColor = input.value;
     dialog.close();
 }
 
