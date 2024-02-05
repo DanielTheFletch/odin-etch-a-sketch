@@ -91,12 +91,12 @@ function unshowHoverPreview(element) { element.style.border = `3px solid black`;
 function initGridSizeButton()
 {
     // Capture buttons
-    const changeButton = document.querySelector('.button-prompt');
+    const gridButton = document.querySelector('.menu-button-grid');
     const submitButton = document.querySelector('.button-submit');
 
     // Add event listeners
-    changeButton.addEventListener('click', showDialog);
-    submitButton.addEventListener('click', closeDialog);
+    gridButton.addEventListener('click', showDialogGridSize);
+    submitButton.addEventListener('click', closeDialogGridSize);
 }
 
 
@@ -108,8 +108,8 @@ function initColorButton()
     const submitButton = document.querySelector('.button-submit');
 
     // Add event listeners
-    colorButton.addEventListener('click', showDialog);
-    submitButton.addEventListener('click', closeDialog);
+    colorButton.addEventListener('click', showDialogGridSize);
+    submitButton.addEventListener('click', closeDialogGridSize);
 }
 
 
@@ -142,7 +142,7 @@ function initialize(gridSize = 16)
 {
     // Set initial grid size
     createGrid(gridSize);
-    const input = document.querySelector('#prompt-input');
+    const input = document.querySelector('#input-grid-size');
     input.value = gridSize;
 
     // Initialize menu buttons and corresponding event listeners
@@ -240,16 +240,15 @@ function toggleColors(event)
 }
 
 
-// Dialog: Show dialog
-function showDialog(event)
+// Dialog controls: Change grid size
+
+function showDialogGridSize(event)
 {
-    const dialog = document.querySelector('dialog');
+    const dialog = document.querySelector('#dialog-grid-size');
     dialog.showModal();
 }
 
-
-// Dialog: Close dialog and process input field
-function closeDialog(event)
+function closeDialogGridSize(event)
 {
     let currentSize;
     const dialog = document.querySelector('dialog');
