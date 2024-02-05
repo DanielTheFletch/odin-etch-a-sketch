@@ -92,7 +92,7 @@ function initGridSizeButton()
 {
     // Capture buttons
     const gridButton = document.querySelector('.menu-button-grid');
-    const submitButton = document.querySelector('.button-submit');
+    const submitButton = document.querySelector('.submit-button-grid');
 
     // Add event listeners
     gridButton.addEventListener('click', showDialogGridSize);
@@ -101,15 +101,15 @@ function initGridSizeButton()
 
 
 // Initialize button to change pen color
-function initColorButton()
+function initPenColorButton()
 {
     // Capture buttons
     const colorButton = document.querySelector('.menu-button-color');
-    const submitButton = document.querySelector('.button-submit');
+    const submitButton = document.querySelector('.submit-button-color');
 
     // Add event listeners
-    colorButton.addEventListener('click', showDialogGridSize);
-    submitButton.addEventListener('click', closeDialogGridSize);
+    colorButton.addEventListener('click', showDialogPenColor);
+    submitButton.addEventListener('click', closeDialogPenColor);
 }
 
 
@@ -148,7 +148,7 @@ function initialize(gridSize = 16)
     // Initialize menu buttons and corresponding event listeners
     initPenToggleButton();
     initGridSizeButton();
-    initColorButton();
+    initPenColorButton();
     initUndoButton();
 }
 
@@ -251,8 +251,8 @@ function showDialogGridSize(event)
 function closeDialogGridSize(event)
 {
     let currentSize;
-    const dialog = document.querySelector('dialog');
-    const input = document.querySelector('input');
+    const dialog = document.querySelector('#dialog-grid-size');
+    const input = document.querySelector('#input-grid-size');
     const newSize = parseInt(input.value);
 
     if (newSize && newSize > 0 && newSize <= 100)
@@ -263,6 +263,26 @@ function closeDialogGridSize(event)
     }
 
     input.value = currentSize;
+    dialog.close();
+}
+
+
+// Dialog controls: Change pen color
+
+function showDialogPenColor(event)
+{
+    const dialog = document.querySelector('#dialog-pen-color');
+    dialog.showModal();
+}
+
+function closeDialogPenColor(event)
+{
+    const dialog = document.querySelector('#dialog-pen-color');
+    const input = document.querySelector('#input-pen-color');
+    const newColor = input.value;
+
+    console.log(newColor);
+
     dialog.close();
 }
 
