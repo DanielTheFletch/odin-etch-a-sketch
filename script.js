@@ -100,6 +100,19 @@ function initGridSizeButton()
 }
 
 
+// Initialize button to change pen color
+function initColorButton()
+{
+    // Capture buttons
+    const colorButton = document.querySelector('.menu-button-color');
+    const submitButton = document.querySelector('.button-submit');
+
+    // Add event listeners
+    colorButton.addEventListener('click', showDialog);
+    submitButton.addEventListener('click', closeDialog);
+}
+
+
 // Initialize event listeners for pen toggle button
 function initPenToggleButton()
 {
@@ -135,6 +148,7 @@ function initialize(gridSize = 16)
     // Initialize menu buttons and corresponding event listeners
     initPenToggleButton();
     initGridSizeButton();
+    initColorButton();
     initUndoButton();
 }
 

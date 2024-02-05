@@ -21,12 +21,22 @@
         <ul class="menu-buttons">
           <li class="menu-button button-prompt">Change grid size</li>
           <li class="menu-button menu-button-pen toggle-off">Toggle pen</li>
+          <li class="menu-button menu-button-color">Change color</li>
           <li class="menu-button menu-button-undo">UNDO</li>
         </ul>
       </div>
 
       <!-- Button prompts -->
       <dialog id="prompt-dialog">
+        <p>Enter a new size for the grid between 1-100.</p>
+        <form method="dialog">
+          <label for="prompt-input">Grid size: </label>
+          <input id="prompt-input" type="text" autocomplete="off">
+          <button class="button-submit">Submit</button>
+        </form>
+      </dialog>
+
+      <dialog id="change-color-dialog">
         <p>Enter a new size for the grid between 1-100.</p>
         <form method="dialog">
           <label for="prompt-input">Grid size: </label>
