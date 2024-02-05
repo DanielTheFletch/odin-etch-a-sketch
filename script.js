@@ -115,6 +115,21 @@ function initGridSizeButton()
 }
 
 
+// Initialize button to clear workspace
+function initClearCanvasButton()
+{
+    // Capture buttons
+    const clearButton = document.querySelector('.menu-button-clear');
+    const confirmButton = document.querySelector('.submit-button-clear-confirm');
+    const cancelButton = document.querySelector('.submit-button-clear-cancel');
+
+    // Add event listeners
+    clearButton.addEventListener('click', showDialogClearCanvas);
+    confirmButton.addEventListener('click', closeDialogClearCanvas);
+    cancelButton.addEventListener('click', closeDialog('#dialog-clear-canvas'));
+}
+
+
 // Initialize button to change pen color
 function initPenColorButton()
 {
@@ -162,6 +177,7 @@ function initialize(gridSize = 16)
 
     // Initialize menu buttons and corresponding event listeners
     initPenToggleButton();
+    initClearCanvasButton();
     initGridSizeButton();
     initPenColorButton();
     initUndoButton();
@@ -255,6 +271,14 @@ function toggleColors(event)
 }
 
 
+// Generic 'close dialog' control (e.g., for cancellations)
+function closeDialog(selector)
+{
+    const dialog = document.querySelector(selector);
+    dialog.close();
+}
+
+
 // Dialog controls: Change grid size
 
 function showDialogGridSize(event)
@@ -296,6 +320,28 @@ function closeDialogPenColor(event)
     const input = document.querySelector('#input-pen-color');
 
     selectedColor = input.value;
+    dialog.close();
+}
+
+
+// Dialog controls: Change grid size
+
+function showDialogClearCanvas(event)
+{
+    const dialog = document.querySelector('#dialog-clear-canvas');
+    dialog.showModal();
+}
+
+function closeDialogClearCanvas(event)
+{
+    const dialog = document.querySelector('#dialog-clear-canvas');
+    const size = document.querySelector('#input-grid-size').value;
+
+    clearGrid();
+    createGrid(size);
+
+    while(undoStack.length > 0) { undoStack.pop(); }
+
     dialog.close();
 }
 
