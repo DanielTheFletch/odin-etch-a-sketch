@@ -12,6 +12,7 @@
 
 // Global variables for managing state
 const undoStack = [];
+let squares = [];
 let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = '#ffffff';
@@ -22,6 +23,8 @@ let selectedTool = { pen: true, eraser: false, bucket: false };
 // Create square grid of size (n * n)
 function createGrid(n)
 {
+    while(squares.length > 0) { squares.pop(); }
+
     const container = document.querySelector('.container');
     for (let i = 0; i < (n * n); i++)
     {
@@ -39,6 +42,8 @@ function createGrid(n)
         // Add square to DOM tree
         container.appendChild(square);
     }
+
+    squares = Array.from(container.childNodes);
 }
 
 
@@ -61,31 +66,54 @@ function clearGrid()
 function bucketFill(origin)
 {
     // Helper variables
-    const squares = Array.from(document.querySelector('.container').childNodes);
+    const areaColor = origin.style.backgroundColor;
     const size = Math.sqrt(squares.length);
     const startIndex = squares.indexOf(origin);
-    console.log(startIndex);
 
-    // Print adjacent squares
+    // Update origin color
+    origin.style.backgroundColor = selectedColor;
+
+    // Fill adjacent squares
     for (let i = 0; i < squares.length; i++)
     {
         // Check left
-        if ((i === startIndex - 1) && (i % size !== size - 1))
+        if ((i === startIndex - 1) &&
+            (i % size !== size - 1) &&
+            (squares[i].style.backgroundColor === areaColor))
         {
-            console.log(`To left, at index ${i}`);
+            console.log(`To the left, index ${i}`);
+            squares[i].style.backgroundColor = selectedColor;
         }
 
         // Check right
-        else if ((i === startIndex + 1) && (i % size !== 0))
+        else if ((i === startIndex + 1) &&
+                 (i % size !== 0) &&
+                 (squares[i].style.backgroundColor === areaColor))
         {
-            console.log(`To right, at index ${i}`);
+            console.log(`To the right, index ${i}`);
+            squares[i].style.backgroundColor = selectedColor;
         }
 
-        // Check above/below
-        else if (i === startIndex - size || i === startIndex + size)
+        // Check above
+        else if ((i === startIndex - size) &&
+                 (squares[i].style.backgroundColor === areaColor))
         {
-            console.log(`Same column, at index ${i}`);
+            console.log(`Same column, index ${i}`);
+            squares[i].style.backgroundColor = selectedColor;
         }
+
+        // Check below
+        else if ((i === startIndex + size) &&
+                 (squares[i].style.backgroundColor === areaColor))
+        {
+            console.log(`Same column, index ${i}`);
+            squares[i].style.backgroundColor = selectedColor;
+        }
+
+        // else 
+        // {
+        //     return;
+        // }
     }
 }
 
