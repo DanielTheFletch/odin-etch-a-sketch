@@ -16,6 +16,7 @@ let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = '#ffffff';
 let selectedColor = '#000000';
+let eraserMode = false;
 
 
 // Create square grid of size (n * n)
@@ -60,7 +61,7 @@ function clearGrid()
 function setColor(element)
 {
     // Convert selected color to match backgroundColor format
-    const color = rgbConvert(selectedColor);
+    const color = eraserMode ? rgbConvert('#ffffff') : rgbConvert(selectedColor);
 
     if (element.style.backgroundColor !== color)
     {
@@ -159,6 +160,14 @@ function initPenToggleButton()
 }
 
 
+// Initialize event listeners for eraser toggle button
+function initEraserToggleButton()
+{
+    const toggleButton = document.querySelector('.menu-button-eraser');
+    toggleButton.addEventListener('click', toggleColors);
+}
+
+
 // Initialize event listeners for undo button
 function initUndoButton()
 {
@@ -177,6 +186,7 @@ function initialize(gridSize = 16)
 
     // Initialize menu buttons and corresponding event listeners
     initPenToggleButton();
+    initEraserToggleButton();
     initClearCanvasButton();
     initGridSizeButton();
     initPenColorButton();
