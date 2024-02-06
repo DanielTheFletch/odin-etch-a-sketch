@@ -69,14 +69,19 @@ function bucketFill(origin)
     // Print adjacent squares
     for (let i = 0; i < squares.length; i++)
     {
-        // NEED TO FIX:
-        // "Same row" logic doesn't account for row breaks, just checks raw index
-
-        if (i === startIndex + 1 || i === startIndex - 1)
+        // Check left
+        if ((i === startIndex - 1) && (i % size !== size - 1))
         {
-            console.log(`Same row, at index ${i}`);
+            console.log(`To left, at index ${i}`);
         }
 
+        // Check right
+        else if ((i === startIndex + 1) && (i % size !== 0))
+        {
+            console.log(`To right, at index ${i}`);
+        }
+
+        // Check above/below
         else if (i === startIndex - size || i === startIndex + size)
         {
             console.log(`Same column, at index ${i}`);
