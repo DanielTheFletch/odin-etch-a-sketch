@@ -17,7 +17,7 @@ let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = '#ffffff';
 let selectedColor = '#000000';
-let selectedTool = { pen: true, eraser: false, bucket: false };
+let selectedTool = { pen: true, eraser: false, replace: false };
 
 
 // Create square grid of size (n * n)
@@ -62,8 +62,8 @@ function clearGrid()
 }
 
 
-// Bucket: Fill all squares of the same color
-function bucketFill(origin)
+// Replace: Fill all squares of the same color
+function replace(origin)
 {
     // Store old color
     const areaColor = origin.style.backgroundColor;
@@ -83,9 +83,9 @@ function setColor(square)
 
     if (square.style.backgroundColor !== color)
     {
-        if (selectedTool['bucket'])
+        if (selectedTool['replace'])
         {
-            bucketFill(square);
+            replace(square);
         }
 
         else
@@ -191,7 +191,7 @@ function initPenColorButton()
 function initToolSelectButtons()
 {
     // Add event listeners for buttons
-    for (let tool of ['pen', 'eraser', 'bucket'])
+    for (let tool of ['pen', 'eraser', 'replace'])
     {
         const toggleButton = document.querySelector(`.tool-select-${tool}`);
         toggleButton.toolName = tool;
