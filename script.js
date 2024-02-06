@@ -107,7 +107,7 @@ function rgbConvert(hex)
 function initGridSizeButton()
 {
     // Capture buttons
-    const gridButton = document.querySelector('.menu-button-grid-size');
+    const gridButton = document.querySelector('.action-select-grid-size');
     const submitButton = document.querySelector('.submit-button-grid-size');
 
     // Add event listeners
@@ -120,7 +120,7 @@ function initGridSizeButton()
 function initClearCanvasButton()
 {
     // Capture buttons
-    const clearButton = document.querySelector('.menu-button-clear');
+    const clearButton = document.querySelector('.action-select-clear');
     const confirmButton = document.querySelector('.submit-button-clear-confirm');
     const cancelButton = document.querySelector('.submit-button-clear-cancel');
 
@@ -135,7 +135,7 @@ function initClearCanvasButton()
 function initPenColorButton()
 {
     // Capture buttons
-    const colorButton = document.querySelector('.menu-button-color');
+    const colorButton = document.querySelector('.action-select-color');
     const submitButton = document.querySelector('.submit-button-color');
 
     // Add event listeners
@@ -148,7 +148,7 @@ function initPenColorButton()
 function initPenToggleButton()
 {
     // Add event listeners for button
-    const toggleButton = document.querySelector('.menu-button-pen');
+    const toggleButton = document.querySelector('.tool-select-pen');
     toggleButton.addEventListener('click', toggleColors);
     toggleButton.addEventListener('click', toggleClickRequired);
 
@@ -163,7 +163,7 @@ function initPenToggleButton()
 // Initialize event listeners for eraser toggle button
 function initEraserToggleButton()
 {
-    const toggleButton = document.querySelector('.menu-button-eraser');
+    const toggleButton = document.querySelector('.tool-select-eraser');
     toggleButton.addEventListener('click', toggleColors);
     toggleButton.addEventListener('click', toggleEraserMode);
 }
@@ -172,7 +172,7 @@ function initEraserToggleButton()
 // Initialize event listeners for undo button
 function initUndoButton()
 {
-    const undoButton = document.querySelector('.menu-button-undo');
+    const undoButton = document.querySelector('.action-select-undo');
     undoButton.addEventListener('click', undoAction);
 }
 
