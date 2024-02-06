@@ -4,20 +4,35 @@
 
 
 /* 
+======================
+   GLOBAL VARIABLES
+======================
+*/
+
+
+// Track user inputs for 'Undo' action
+const undoStack = [];
+
+// Track squares on grid for ease of use
+const squares = [];
+
+// Track currently selected color and tool
+let selectedColor = '#000000';
+let selectedTool = { pen: true, eraser: false, replace: false };
+
+// Track user click behavior
+let clickRequired = true;
+let clickHeld = false;
+
+
+// -------------------------------------------------------
+
+
+/* 
 ========================
    CORE FUNCTIONALITY
 ========================
 */
-
-
-// Global variables for managing state
-const undoStack = [];
-let squares = [];
-let clickRequired = true;
-let clickHeld = false;
-let currentSquareColor = '#ffffff';
-let selectedColor = '#000000';
-let selectedTool = { pen: true, eraser: false, replace: false };
 
 
 // Create square grid of size (n * n)
@@ -62,54 +77,13 @@ function clearGrid()
 }
 
 
-// Replace: Fill all squares of the same color
-function replace(origin)
-{
-    // Store old color
-    const areaColor = origin.style.backgroundColor;
-
-    // Update all matching colors to selected color
-    for (let square of squares)
-        if (square.style.backgroundColor === areaColor)
-            square.style.backgroundColor = selectedColor;
-}
+// Manage background color and border color of single square
+function setSquareColor(square, color) { square.style.backgroundColor = color; }
+function showHoverPreview(square) { square.style.border = `0.5px solid ${selectedColor}a0`; }
+function unshowHoverPreview(square) { square.style.border = '0.5px solid #00000030'; }
 
 
-// Square: Set color of individual square
-function setColor(square)
-{
-    // Convert selected color to match backgroundColor format
-    let color = selectedTool['eraser'] ? '#ffffff' : selectedColor;
-
-    if (square.style.backgroundColor !== color)
-    {
-        if (selectedTool['replace'])
-        {
-            replace(square);
-        }
-
-        else
-        {
-            // Track action for undo
-            if (undoStack.length >= 100) { undoStack.shift(); }
-            undoStack.push({ item: square, color: square.style.backgroundColor });
-        
-            // Update color
-            square.style.backgroundColor = color;
-            currentSquareColor = color;
-        }
-
-        unshowHoverPreview();
-    }
-}
-
-
-// Square: Toggle hover preview when using "mouse required" mode
-function showHoverPreview(element) { element.style.border = `0.5px solid ${selectedColor}a0`; }
-function unshowHoverPreview(element) { element.style.border = '0.5px solid #00000030'; }
-
-
-// Selected color: Convert selected color to rgb() style string
+// Convert specified color from hex to rgb format (both as strings)
 function rgbConvert(hex)
 {
     const red = hex.substring(1, 3);
@@ -117,6 +91,45 @@ function rgbConvert(hex)
     const blue = hex.substring(5, 7);
 
     return `rgb(${parseInt(red, 16)}, ${parseInt(green, 16)}, ${parseInt(blue, 16)})`;
+}
+
+
+// Use the selected tool on the indicated square
+function useTool(square)
+{
+    // Convert selected color (hex) => background color (rgb)
+    const color = rgbConvert(selectedTool['eraser'] ? '#ffffff' : selectedColor);
+
+    // Only use tool if it would change the square
+    if (square.style.backgroundColor !== color)
+    {
+        const originalColor = square.style.backgroundColor;
+        const squaresChanged = [];
+
+        // Fill single square for pen/eraser
+        if (selectedTool['pen'] || selectedTool['eraser'])
+        {
+            squaresChanged.push(square);
+            setSquareColor(square, color);
+        }
+
+        // Fill multiple squares for replace
+        else
+        {
+            squares.forEach(square => {
+                if (square.style.backgroundColor === originalColor)
+                {
+                    squaresChanged.push(square);
+                    setSquareColor(square, color);
+                }
+            });
+        }
+
+        // Update undo stack to track action
+        if (undoStack.length >= 100) { undoStack.shift(); }
+        undoStack.push({ squareList: squaresChanged, color: originalColor });
+        unshowHoverPreview(square);
+    }
 }
 
 
@@ -249,18 +262,16 @@ initialize();
 // Squares: Listen for pen entering
 function penEnter(event)
 {
-    currentSquareColor = this.style.backgroundColor;
-
     if (clickRequired)
     {
         if (!clickHeld)
             showHoverPreview(this);
         else
-            setColor(this);
+            useTool(this);
     }
 
     else
-        setColor(this);
+        useTool(this);
 
     event.preventDefault();
     event.stopPropagation();
@@ -279,7 +290,7 @@ function penExit(event)
 // Squares: Listen for pen click
 function penClick(event)
 {
-    setColor(this);
+    useTool(this);
 }
 
 
@@ -289,7 +300,8 @@ function undoAction(event)
     if (undoStack.length > 0)
     {
         const action = undoStack.pop();
-        action.item.style.backgroundColor = action.color;
+        const color = action['color'];
+        for (let square of action['squareList']) { setSquareColor(square, color); }
     }
 }
 
