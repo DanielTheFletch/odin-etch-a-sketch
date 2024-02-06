@@ -23,8 +23,6 @@ let selectedTool = { pen: true, eraser: false, bucket: false };
 // Create square grid of size (n * n)
 function createGrid(n)
 {
-    while(squares.length > 0) { squares.pop(); }
-
     const container = document.querySelector('.container');
     for (let i = 0; i < (n * n); i++)
     {
@@ -59,62 +57,21 @@ function clearGrid()
     const newContainer = document.createElement('div');
     newContainer.classList.add('container');
     main.appendChild(newContainer);
+
+    while(squares.length > 0) { squares.pop(); }
 }
 
 
-// Bucket: Fill all contiguous squares of the same color
+// Bucket: Fill all squares of the same color
 function bucketFill(origin)
 {
-    // Helper variables
+    // Store old color
     const areaColor = origin.style.backgroundColor;
-    const size = Math.sqrt(squares.length);
-    const startIndex = squares.indexOf(origin);
 
-    // Update origin color
-    origin.style.backgroundColor = selectedColor;
-
-    // Fill adjacent squares
-    for (let i = 0; i < squares.length; i++)
-    {
-        // Check left
-        if ((i === startIndex - 1) &&
-            (i % size !== size - 1) &&
-            (squares[i].style.backgroundColor === areaColor))
-        {
-            console.log(`To the left, index ${i}`);
-            squares[i].style.backgroundColor = selectedColor;
-        }
-
-        // Check right
-        else if ((i === startIndex + 1) &&
-                 (i % size !== 0) &&
-                 (squares[i].style.backgroundColor === areaColor))
-        {
-            console.log(`To the right, index ${i}`);
-            squares[i].style.backgroundColor = selectedColor;
-        }
-
-        // Check above
-        else if ((i === startIndex - size) &&
-                 (squares[i].style.backgroundColor === areaColor))
-        {
-            console.log(`Same column, index ${i}`);
-            squares[i].style.backgroundColor = selectedColor;
-        }
-
-        // Check below
-        else if ((i === startIndex + size) &&
-                 (squares[i].style.backgroundColor === areaColor))
-        {
-            console.log(`Same column, index ${i}`);
-            squares[i].style.backgroundColor = selectedColor;
-        }
-
-        // else 
-        // {
-        //     return;
-        // }
-    }
+    // Update all matching colors to selected color
+    for (let square of squares)
+        if (square.style.backgroundColor === areaColor)
+            square.style.backgroundColor = selectedColor;
 }
 
 
@@ -122,30 +79,27 @@ function bucketFill(origin)
 function setColor(square)
 {
     // Convert selected color to match backgroundColor format
-    let color;
-    if (selectedTool['pen'])
-    {
-        color = selectedColor;
-    }
-    else if (selectedTool['eraser'])
-    {
-        color = '#ffffff';
-    }
-    else
-    {
-        bucketFill(square);
-    }
+    let color = selectedTool['eraser'] ? '#ffffff' : selectedColor;
 
     if (square.style.backgroundColor !== color)
     {
-        // Track action for undo
-        if (undoStack.length >= 100) { undoStack.shift(); }
-        undoStack.push({ item: square, color: square.style.backgroundColor });
-    
-        // Update color
-        square.style.backgroundColor = color;
-        currentSquareColor = color;
-        unshowHoverPreview(square);
+        if (selectedTool['bucket'])
+        {
+            bucketFill(square);
+        }
+
+        else
+        {
+            // Track action for undo
+            if (undoStack.length >= 100) { undoStack.shift(); }
+            undoStack.push({ item: square, color: square.style.backgroundColor });
+        
+            // Update color
+            square.style.backgroundColor = color;
+            currentSquareColor = color;
+        }
+
+        unshowHoverPreview();
     }
 }
 
@@ -237,7 +191,7 @@ function initPenColorButton()
 function initToolSelectButtons()
 {
     // Add event listeners for buttons
-    for (tool of ['pen', 'eraser', 'bucket'])
+    for (let tool of ['pen', 'eraser', 'bucket'])
     {
         const toggleButton = document.querySelector(`.tool-select-${tool}`);
         toggleButton.toolName = tool;
