@@ -90,8 +90,8 @@ function setColor(element)
 
 
 // Square: Toggle hover preview when using "mouse required" mode
-function showHoverPreview(element) { element.style.border = `3px solid #C0A08060`; }
-function unshowHoverPreview(element) { element.style.border = `3px solid black`; }
+function showHoverPreview(element) { element.style.border = `0.5px solid ${selectedColor}a0`; }
+function unshowHoverPreview(element) { element.style.border = '0.5px solid #00000030'; }
 
 
 // Selected color: Convert selected color to rgb() style string
