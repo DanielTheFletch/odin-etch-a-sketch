@@ -14,7 +14,7 @@
 const undoStack = [];
 
 // Track squares on grid for ease of use
-const squares = [];
+let squares = [];
 
 // Track currently selected color and tool
 let selectedColor = '#000000';
