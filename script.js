@@ -57,8 +57,36 @@ function clearGrid()
 }
 
 
+// Bucket: Fill all contiguous squares of the same color
+function bucketFill(origin)
+{
+    // Helper variables
+    const squares = Array.from(document.querySelector('.container').childNodes);
+    const size = Math.sqrt(squares.length);
+    const startIndex = squares.indexOf(origin);
+    console.log(startIndex);
+
+    // Print adjacent squares
+    for (let i = 0; i < squares.length; i++)
+    {
+        // NEED TO FIX:
+        // "Same row" logic doesn't account for row breaks, just checks raw index
+
+        if (i === startIndex + 1 || i === startIndex - 1)
+        {
+            console.log(`Same row, at index ${i}`);
+        }
+
+        else if (i === startIndex - size || i === startIndex + size)
+        {
+            console.log(`Same column, at index ${i}`);
+        }
+    }
+}
+
+
 // Square: Set color of individual square
-function setColor(element)
+function setColor(square)
 {
     // Convert selected color to match backgroundColor format
     let color;
@@ -72,19 +100,19 @@ function setColor(element)
     }
     else
     {
-        // add logic for paint bucket
+        bucketFill(square);
     }
 
-    if (element.style.backgroundColor !== color)
+    if (square.style.backgroundColor !== color)
     {
         // Track action for undo
         if (undoStack.length >= 100) { undoStack.shift(); }
-        undoStack.push({ item: element, color: element.style.backgroundColor });
+        undoStack.push({ item: square, color: square.style.backgroundColor });
     
         // Update color
-        element.style.backgroundColor = color;
+        square.style.backgroundColor = color;
         currentSquareColor = color;
-        unshowHoverPreview(element);
+        unshowHoverPreview(square);
     }
 }
 
