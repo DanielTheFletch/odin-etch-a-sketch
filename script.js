@@ -165,6 +165,7 @@ function initEraserToggleButton()
 {
     const toggleButton = document.querySelector('.menu-button-eraser');
     toggleButton.addEventListener('click', toggleColors);
+    toggleButton.addEventListener('click', toggleEraserMode);
 }
 
 
@@ -373,3 +374,6 @@ function toggleClickUnheld(event) { clickHeld = false; }
 
 // Pen toggle: Maintain clickRequired state
 function toggleClickRequired(event) { clickRequired = !clickRequired; }
+
+// Eraser toggle: Maintain eraserMode state
+function toggleEraserMode(event) { eraserMode = !eraserMode; }
