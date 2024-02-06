@@ -16,7 +16,7 @@ let clickRequired = true;
 let clickHeld = false;
 let currentSquareColor = '#ffffff';
 let selectedColor = '#000000';
-let eraserMode = false;
+let selectedTool = { pen: true, eraser: false, bucket: false };
 
 
 // Create square grid of size (n * n)
@@ -93,6 +93,22 @@ function rgbConvert(hex)
 }
 
 
+// Any toggle button: Change colors
+function toggle(button, set)
+{
+    if (set === 'off' && button.classList.contains('toggle-on'))
+    {
+        button.classList.remove('toggle-on');
+        button.classList.add('toggle-off');
+    }
+    else if (set === 'on' && button.classList.contains('toggle-off'))
+    {
+        button.classList.remove('toggle-off');
+        button.classList.add('toggle-on');
+    }
+}
+
+
 // -------------------------------------------------------
 
 
@@ -144,13 +160,16 @@ function initPenColorButton()
 }
 
 
-// Initialize event listeners for pen toggle button
-function initPenToggleButton()
+// Initialize event listeners for pen tool button
+function initToolSelectButtons()
 {
-    // Add event listeners for button
-    const toggleButton = document.querySelector('.tool-select-pen');
-    toggleButton.addEventListener('click', toggleColors);
-    toggleButton.addEventListener('click', toggleClickRequired);
+    // Add event listeners for buttons
+    for (tool of ['pen', 'eraser', 'bucket'])
+    {
+        const toggleButton = document.querySelector(`.tool-select-${tool}`);
+        toggleButton.toolName = tool;
+        toggleButton.addEventListener('click', changeTool);
+    }
 
     // Add global event listeners for "mouse required" pen functionality
     addEventListener('pointerdown', toggleClickHeld);
@@ -161,11 +180,18 @@ function initPenToggleButton()
 
 
 // Initialize event listeners for eraser toggle button
-function initEraserToggleButton()
+function initEraserToolButton()
 {
     const toggleButton = document.querySelector('.tool-select-eraser');
-    toggleButton.addEventListener('click', toggleColors);
-    toggleButton.addEventListener('click', toggleEraserMode);
+    toggleButton.addEventListener('click', changeTool('eraser'));
+}
+
+
+// Initialize event listeners for eraser toggle button
+function initBucketToolButton()
+{
+    const toggleButton = document.querySelector('.tool-select-bucket');
+    //toggleButton.addEventListener('click', changeTool('bucket'));
 }
 
 
@@ -185,9 +211,10 @@ function initialize(gridSize = 16)
     const input = document.querySelector('#input-grid-size');
     input.value = gridSize;
 
-    // Initialize menu buttons and corresponding event listeners
-    initPenToggleButton();
-    initEraserToggleButton();
+    // Set up menu buttons: Selectable tools
+    initToolSelectButtons();
+
+    // Set up menu buttons: Performable actions
     initClearCanvasButton();
     initGridSizeButton();
     initPenColorButton();
@@ -264,20 +291,24 @@ function disableDrag(event)
 }
 
 
-// Any toggle button: Change colors
-function toggleColors(event)
+
+
+// Change the currently selected tool
+function changeTool(event)
 {
-    if (this.classList.contains('toggle-off'))
+    const toolName = event.currentTarget.toolName;
+
+    if (!selectedTool[toolName])
     {
-        // Toggle: OFF -> ON
-        this.classList.remove('toggle-off');
-        this.classList.add('toggle-on');
-    }
-    else
-    {
-        // Toggle: ON -> OFF
-        this.classList.remove('toggle-on');
-        this.classList.add('toggle-off');
+        // Set all tools to 'OFF' state
+        const toolButtons = document.querySelectorAll('.tool-select');
+        toolButtons.forEach(button => toggle(button, 'off'));
+        for (active in selectedTool) { selectedTool[active] = false; }
+
+        // Set new chosen tool to 'ON' state
+        const toolChoiceButton = document.querySelector(`.tool-select-${toolName}`);
+        toggle(toolChoiceButton, 'on');
+        selectedTool[toolName] = true;
     }
 }
 
