@@ -61,7 +61,19 @@ function clearGrid()
 function setColor(element)
 {
     // Convert selected color to match backgroundColor format
-    const color = eraserMode ? rgbConvert('#ffffff') : rgbConvert(selectedColor);
+    let color;
+    if (selectedTool['pen'])
+    {
+        color = selectedColor;
+    }
+    else if (selectedTool['eraser'])
+    {
+        color = '#ffffff';
+    }
+    else
+    {
+        // add logic for paint bucket
+    }
 
     if (element.style.backgroundColor !== color)
     {
@@ -176,22 +188,6 @@ function initToolSelectButtons()
     addEventListener('pointerup', toggleClickUnheld);
     addEventListener('dragstart', disableDrag);
     addEventListener('dragend', disableDrag);
-}
-
-
-// Initialize event listeners for eraser toggle button
-function initEraserToolButton()
-{
-    const toggleButton = document.querySelector('.tool-select-eraser');
-    toggleButton.addEventListener('click', changeTool('eraser'));
-}
-
-
-// Initialize event listeners for eraser toggle button
-function initBucketToolButton()
-{
-    const toggleButton = document.querySelector('.tool-select-bucket');
-    //toggleButton.addEventListener('click', changeTool('bucket'));
 }
 
 
