@@ -200,6 +200,18 @@ function initPenColorButton()
 }
 
 
+function initInfoButton()
+{
+    // Capture buttons
+    const infoButton = document.querySelector('.action-select-info');
+    const submitButton = document.querySelector('.submit-button-info');
+
+    // Add event listeners
+    infoButton.addEventListener('click', showDialogInfo);
+    submitButton.addEventListener('click', closeDialogInfo);
+}
+
+
 // Initialize event listeners for pen tool button
 function initToolSelectButtons()
 {
@@ -243,6 +255,7 @@ function initialize(gridSize = 16)
     initGridSizeButton();
     initPenColorButton();
     initUndoButton();
+    initInfoButton();
 }
 
 
@@ -407,6 +420,21 @@ function closeDialogClearCanvas(event)
 
     while(undoStack.length > 0) { undoStack.pop(); }
 
+    dialog.close();
+}
+
+
+// Dialog controls: Display info on screen
+
+function showDialogInfo(event)
+{
+    const dialog = document.querySelector('#dialog-info');
+    dialog.showModal();
+}
+
+function closeDialogInfo(event)
+{
+    const dialog = document.querySelector('#dialog-info');
     dialog.close();
 }
 
