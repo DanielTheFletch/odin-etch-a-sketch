@@ -12,6 +12,7 @@
   --color-menu: #4357ad;
   --color-background: #fef5ef;
   --color-highlight: #36c9c6;
+  --color-separator: #dedede5a;
 
   --font-title: "Protest Riot", serif;
   --font-body: "Open Sans", sans-serif;
@@ -29,9 +30,11 @@ main {
   background-color: var(--color-background);
 }
 
-h1, h2 {
+h1 {
+  text-shadow: 5px 5px 2.5px black;
   font-family: var(--font-title);
-  font-weight: 400;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 
@@ -44,10 +47,12 @@ h1, h2 {
   background-color: var(--color-menu);
   color: #ffffff;
   margin: 0;
-  padding: 10px;
+  padding: 5px;
 }
 
 .menu-buttons {
+  border: 2.5px solid #000000;
+  box-shadow: 2.5px 2.5px 1.125px black;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -59,11 +64,20 @@ h1, h2 {
 
 .menu-button {
   background-color: #ffffff;
-  border: 3px solid #000000;
+  border-right: 2.5px solid var(--color-separator);
   color: #000000;
-  margin: 5px;
-  padding: 5px;
+  font-size: 1.675rem;
   user-select: none;
+  text-align: center;
+
+  margin: 0;
+  padding: 0.475em;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.menu-button:last-child {
+  border: none;
 }
 
 .menu-button:hover {
@@ -77,11 +91,11 @@ h1, h2 {
 }
 
 .toggle-off {
-  border-color: #000000;
+  background-color: #ffffff;
 }
 
 .toggle-on {
-  border-color: var(--color-highlight);
+  background-color: var(--color-highlight);
 }
 
 
