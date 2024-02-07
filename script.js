@@ -10,18 +10,20 @@
 */
 
 
-// Track user inputs for 'Undo' action
+// Maintain application state
 const undoStack = [];
-
-// Track squares on grid for ease of use
 let squares = [];
 
-// Track currently selected color and tool
+// Track user selections
 let selectedColor = '#000000';
 let selectedTool = { pen: true, eraser: false, replace: false };
 
-// Track user click behavior
+// Track user mouse behavior
 let clickHeld = false;
+addEventListener('pointerdown', toggleClickHeld);
+addEventListener('pointerup', toggleClickUnheld);
+addEventListener('dragstart', disableDrag);
+addEventListener('dragend', disableDrag);
 
 
 // -------------------------------------------------------
@@ -44,7 +46,7 @@ function createGrid(n)
         const square = document.createElement('div');
         square.classList.add('square');
         square.style.flex = `1 0 ${(1 / n) * 100}%`;
-        square.setAttribute('draggable', 'false');
+        // square.setAttribute('draggable', 'false');
     
         // Add event listeners
         square.addEventListener('pointerenter', penEnter);
@@ -55,6 +57,7 @@ function createGrid(n)
         container.appendChild(square);
     }
 
+    // Update global array of squares to new grid
     squares = Array.from(container.childNodes);
 }
 
@@ -72,11 +75,12 @@ function clearGrid()
     newContainer.classList.add('container');
     main.appendChild(newContainer);
 
-    while(squares.length > 0) { squares.pop(); }
+    // Set global array of squares to empty
+    squares.length = 0;
 }
 
 
-// Manage background color and border color of single square
+// Manage background color and border color of a single square
 function setSquareColor(square, color) { square.style.backgroundColor = color; }
 function showHoverPreview(square) { square.style.border = `0.5px solid ${selectedColor}a0`; }
 function unshowHoverPreview(square) { square.style.border = '0.5px solid #00000030'; }
@@ -105,16 +109,15 @@ function useTool(square)
         const originalColor = square.style.backgroundColor;
         const squaresChanged = [];
 
-        // Fill single square for pen/eraser
         if (selectedTool['pen'] || selectedTool['eraser'])
         {
+            // Fill single square for pen/eraser
             squaresChanged.push(square);
             setSquareColor(square, color);
         }
-
-        // Fill multiple squares for replace
         else
         {
+            // Fill multiple squares for replace
             squares.forEach(square => {
                 if (square.style.backgroundColor === originalColor)
                 {
@@ -124,7 +127,7 @@ function useTool(square)
             });
         }
 
-        // Update undo stack to track action
+        // Update undo stack to track action history
         if (undoStack.length >= 100) { undoStack.shift(); }
         undoStack.push({ squareList: squaresChanged, color: originalColor });
         unshowHoverPreview(square);
@@ -132,7 +135,7 @@ function useTool(square)
 }
 
 
-// Any toggle button: Change colors
+// Toggle a button's display from ON -> OFF or from OFF -> ON
 function toggle(button, set)
 {
     if (set === 'off' && button.classList.contains('toggle-on'))
@@ -152,122 +155,9 @@ function toggle(button, set)
 
 
 /* 
-=========================
-   PAGE INITIALIZATION
-=========================
-*/
-
-
-// Initialize button to change grid size
-function initGridSizeButton()
-{
-    // Capture buttons
-    const gridButton = document.querySelector('.action-select-grid-size');
-    const submitButton = document.querySelector('.submit-button-grid-size');
-
-    // Add event listeners
-    gridButton.addEventListener('click', showDialogGridSize);
-    submitButton.addEventListener('click', closeDialogGridSize);
-}
-
-
-// Initialize button to clear workspace
-function initClearCanvasButton()
-{
-    // Capture buttons
-    const clearButton = document.querySelector('.action-select-clear');
-    const confirmButton = document.querySelector('.submit-button-clear-confirm');
-    const cancelButton = document.querySelector('.submit-button-clear-cancel');
-
-    // Add event listeners
-    clearButton.addEventListener('click', showDialogClearCanvas);
-    confirmButton.addEventListener('click', closeDialogClearCanvas);
-    cancelButton.addEventListener('click', closeDialog('#dialog-clear-canvas'));
-}
-
-
-// Initialize button to change pen color
-function initPenColorButton()
-{
-    // Capture buttons
-    const colorButton = document.querySelector('.action-select-color');
-    const submitButton = document.querySelector('.submit-button-color');
-
-    // Add event listeners
-    colorButton.addEventListener('click', showDialogPenColor);
-    submitButton.addEventListener('click', closeDialogPenColor);
-}
-
-
-function initInfoButton()
-{
-    // Capture buttons
-    const infoButton = document.querySelector('.action-select-info');
-    const submitButton = document.querySelector('.submit-button-info');
-
-    // Add event listeners
-    infoButton.addEventListener('click', showDialogInfo);
-    submitButton.addEventListener('click', closeDialogInfo);
-}
-
-
-// Initialize event listeners for pen tool button
-function initToolSelectButtons()
-{
-    // Add event listeners for buttons
-    for (let tool of ['pen', 'eraser', 'replace'])
-    {
-        const toggleButton = document.querySelector(`.tool-select-${tool}`);
-        toggleButton.toolName = tool;
-        toggleButton.addEventListener('click', changeTool);
-    }
-
-    // Add global event listeners for "mouse required" pen functionality
-    addEventListener('pointerdown', toggleClickHeld);
-    addEventListener('pointerup', toggleClickUnheld);
-    addEventListener('dragstart', disableDrag);
-    addEventListener('dragend', disableDrag);
-}
-
-
-// Initialize event listeners for undo button
-function initUndoButton()
-{
-    const undoButton = document.querySelector('.action-select-undo');
-    undoButton.addEventListener('click', undoAction);
-}
-
-
-// Initialize event listeners and create starting grid
-function initialize(gridSize = 16)
-{
-    // Set initial grid size
-    createGrid(gridSize);
-    const input = document.querySelector('#input-grid-size');
-    input.value = gridSize;
-
-    // Set up menu buttons: Selectable tools
-    initToolSelectButtons();
-
-    // Set up menu buttons: Performable actions
-    initClearCanvasButton();
-    initGridSizeButton();
-    initPenColorButton();
-    initUndoButton();
-    initInfoButton();
-}
-
-
-initialize();
-
-
-// -------------------------------------------------------
-
-
-/* 
-==============================
-   EVENT LISTENERS: GENERAL
-==============================
+=====================
+   EVENT LISTENERS
+=====================
 */
 
 
@@ -342,12 +232,12 @@ function changeTool(event)
 }
 
 
-// Generic 'close dialog' control (e.g., for cancellations)
-function closeDialog(selector)
-{
-    const dialog = document.querySelector(selector);
-    dialog.close();
-}
+// Generic dialog controls
+const showDialog = event => event.currentTarget.dialog.showModal();
+const closeDialog = event => event.currentTarget.dialog.close();
+
+
+// Dialog input processing
 
 
 // Dialog controls: Change grid size
@@ -411,7 +301,7 @@ function closeDialogClearCanvas(event)
     clearGrid();
     createGrid(size);
 
-    while(undoStack.length > 0) { undoStack.pop(); }
+    undoStack.length = 0;
 
     dialog.close();
 }
@@ -432,16 +322,119 @@ function closeDialogInfo(event)
 }
 
 
+// Container: Maintain clickHeld state
+function toggleClickHeld(event) { clickHeld = true; }
+function toggleClickUnheld(event) { clickHeld = false; }
+
+
 // -------------------------------------------------------
 
 
 /* 
-=====================================
-   EVENT LISTENERS: MANAGING STATE
-=====================================
+=========================
+   PAGE INITIALIZATION
+=========================
 */
 
 
-// Container: Maintain clickHeld state
-function toggleClickHeld(event) { clickHeld = true; }
-function toggleClickUnheld(event) { clickHeld = false; }
+// Event listeners: Grid size, Clear canvas, Change color, Show info
+function initActionSelectButtons()
+{
+    for (let action of ['grid-size', 'clear', 'color', 'info'])
+    {
+        const actionButton = document.querySelector(`.action-select-${action}`);
+        actionButton.dialog = document.querySelector(`#dialog-${action}`);
+        actionButton.addEventListener('click', showDialog);
+    }
+}
+
+// Initialize button to change grid size
+function initGridSizeButton()
+{
+    // Capture buttons
+    const gridButton = document.querySelector('.action-select-grid-size');
+    const submitButton = document.querySelector('.dialog-button-grid-size');
+
+    // Add event listeners
+    gridButton.addEventListener('click', showDialogGridSize);
+    submitButton.addEventListener('click', closeDialogGridSize);
+}
+
+
+// Initialize button to clear workspace
+function initClearCanvasButton()
+{
+    // Capture buttons
+    const clearButton = document.querySelector('.action-select-clear');
+    const confirmButton = document.querySelector('.dialog-button-clear-confirm');
+    const cancelButton = document.querySelector('.dialog-button-clear-cancel');
+
+    // Add event listeners
+    clearButton.addEventListener('click', showDialogClearCanvas);
+    confirmButton.addEventListener('click', closeDialogClearCanvas);
+    cancelButton.addEventListener('click', closeDialog('#dialog-clear-canvas'));
+}
+
+
+// Initialize button to change pen color
+function initPenColorButton()
+{
+    // Capture buttons
+    const colorButton = document.querySelector('.action-select-color');
+    const submitButton = document.querySelector('.dialog-button-color');
+
+    // Add event listeners
+    colorButton.addEventListener('click', showDialogPenColor);
+    submitButton.addEventListener('click', closeDialogPenColor);
+}
+
+
+function initInfoButton()
+{
+    // Capture buttons
+    const infoButton = document.querySelector('.action-select-info');
+    const submitButton = document.querySelector('.dialog-button-info');
+
+    // Add event listeners
+    infoButton.addEventListener('click', showDialogInfo);
+    submitButton.addEventListener('click', closeDialogInfo);
+}
+
+
+// Initialize event listeners for Pen, Eraser, Replace buttons
+function initToolSelectButtons()
+{
+    for (let tool of ['pen', 'eraser', 'replace'])
+    {
+        const toggleButton = document.querySelector(`.tool-select-${tool}`);
+        toggleButton.toolName = tool;
+        toggleButton.addEventListener('click', changeTool);
+    }
+}
+
+
+// Initialize event listeners for undo button
+function initUndoButton()
+{
+    const undoButton = document.querySelector('.action-select-undo');
+    undoButton.addEventListener('click', undoAction);
+}
+
+
+// Initialize event listeners and create starting grid
+function initialize(gridSize = 16)
+{
+    // Set initial grid size
+    createGrid(gridSize);
+    const input = document.querySelector('#input-grid-size');
+    input.value = gridSize;
+
+    // Set up menu buttons: Selectable tools
+    initToolSelectButtons();
+
+    // Set up menu buttons: Performable actions
+    initActionSelectButtons();
+}
+
+
+initialize();
