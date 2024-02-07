@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etched & Sketched</title>
-
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css">
     <script src="./script.js" defer></script>
   </head>
 
@@ -18,17 +18,37 @@
       <!-- Menu bar -->
       <div class="menu">
         <h1 class="title">Etched & Sketched</h1>
+
+        <!-- Tool select -->
         <ul class="menu-buttons menu-buttons-tools">
-          <li class="menu-button tool-select tool-select-pen toggle-on">PEN</li>
-          <li class="menu-button tool-select tool-select-eraser toggle-off">ERASER</li>
-          <li class="menu-button tool-select tool-select-replace toggle-off">REPLACE</li>
+          <li class="menu-button tool-select tool-select-pen toggle-on">
+            <span class="fa-solid fa-pen"></span>
+          </li>
+          <li class="menu-button tool-select tool-select-eraser toggle-off">
+            <span class="fa-solid fa-eraser"></span>
+          </li>
+          <li class="menu-button tool-select tool-select-replace toggle-off">
+            <span class="fa-solid fa-droplet"></span>
+          </li>
         </ul>
+
+        <!-- Action select -->
         <ul class="menu-buttons menu-buttons-actions">
-          <li class="menu-button action-select action-select-grid-size">Change grid size</li>
-          <li class="menu-button action-select action-select-clear">Clear canvas</li>
-          <li class="menu-button action-select action-select-color">Change color</li>
-          <li class="menu-button action-select action-select-undo">Undo</li>
-          <li class="menu-button action-select action-select-info">[ ? ]</li>
+          <li class="menu-button action-select action-select-grid-size">
+            <span class="fa-solid fa-expand"></span>
+          </li>
+          <li class="menu-button action-select action-select-clear">
+            <span class="fa-solid fa-trash"></span>
+          </li>
+          <li class="menu-button action-select action-select-color">
+            <span class="fa-solid fa-palette"></span>
+          </li>
+          <li class="menu-button action-select action-select-undo">
+            <span class="fa-solid fa-rotate-left"></span>
+          </li>
+          <li class="menu-button action-select action-select-info">
+            <span class="fa-regular fa-circle-question"></span>
+          </li>
         </ul>
       </div>
 
