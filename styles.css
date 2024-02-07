@@ -9,6 +9,10 @@
 
 /* --- GENERAL PROPERTIES --- */
 :root {
+  --color-menu: #4357ad;
+  --color-background: #fef5ef;
+  --color-highlight: #36c9c6;
+
   --font-title: "Protest Riot", serif;
   --font-body: "Open Sans", sans-serif;
 }
@@ -19,6 +23,10 @@ body {
   font-weight: 400;
   margin: 0;
   padding: 0;
+}
+
+main {
+  background-color: var(--color-background);
 }
 
 h1, h2 {
@@ -33,7 +41,8 @@ h1, h2 {
   justify-content: space-around;
   align-items: center;
 
-  background-color: purple;
+  background-color: var(--color-menu);
+  color: #ffffff;
   margin: 0;
   padding: 10px;
 }
@@ -49,7 +58,9 @@ h1, h2 {
 }
 
 .menu-button {
-  background-color: white;
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
   margin: 5px;
   padding: 5px;
   user-select: none;
@@ -60,14 +71,17 @@ h1, h2 {
   opacity: 75%;
 }
 
+.menu-button.toggle-on:hover {
+  cursor: default;
+  opacity: 100%;
+}
+
 .toggle-off {
-  background-color: white;
-  color: black;
+  border-color: #000000;
 }
 
 .toggle-on {
-  background-color: black;
-  color: white;
+  border-color: var(--color-highlight);
 }
 
 
@@ -76,12 +90,13 @@ h1, h2 {
   display: flex;
   flex-wrap: wrap;
 
-  border: 3px solid black;
+  border: 3px solid #000000;
   height: 810px;
   width: 810px;
 }
 
 .square {
+  background-color: #ffffff;
   border: 0.5px groove #00000030;
   box-sizing: border-box;
 }
