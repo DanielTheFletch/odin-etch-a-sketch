@@ -15,15 +15,9 @@ const undoStack = [];
 let squares = [];
 
 // Track user selections
+let clickHeld = false;
 let selectedColor = '#000000';
 let selectedTool = { pen: true, eraser: false, replace: false };
-
-// Track user mouse behavior
-let clickHeld = false;
-addEventListener('pointerdown', toggleClickHeld);
-addEventListener('pointerup', toggleClickUnheld);
-addEventListener('dragstart', disableDrag);
-addEventListener('dragend', disableDrag);
 
 
 // -------------------------------------------------------
@@ -82,9 +76,9 @@ function clearGrid()
 
 
 // Manage background color and border color of a single square
-function setSquareColor(square, color) { square.style.backgroundColor = color; }
-function showHoverPreview(square) { square.style.border = `0.5px solid ${selectedColor}a0`; }
-function unshowHoverPreview(square) { square.style.border = '0.5px solid #00000030'; }
+const setSquareColor = (square, color) => square.style.backgroundColor = color;
+const showHoverPreview = square => square.style.border = `0.5px solid ${selectedColor}a0`;
+const unshowHoverPreview = square => square.style.border = '0.5px solid #00000030';
 
 
 // Convert specified color from hex to rgb format (both as strings)
@@ -162,7 +156,7 @@ function toggle(button, set)
 */
 
 
-// Squares: Listen for pen entering
+// Listen for mouse ENTERING a square
 function penEnter(event)
 {
     if (!clickHeld)
@@ -175,7 +169,7 @@ function penEnter(event)
 }
 
 
-// Squares: Listen for pen exiting
+// Listen for mouse EXITING a square
 function penExit(event)
 {
     unshowHoverPreview(this);
@@ -184,15 +178,15 @@ function penExit(event)
 }
 
 
-// Squares: Listen for pen click
-function penClick(event)
+// Listen for mouse CLICKING on a square
+function penClick()
 {
     useTool(this);
 }
 
 
 // Pop action from stack and perform undo
-function undoAction(event)
+function undo()
 {
     if (undoStack.length > 0)
     {
@@ -203,12 +197,17 @@ function undoAction(event)
 }
 
 
-// Container: Disable dragging functionality to prevent unexpected behavior
+// Globally disable dragging functionality to prevent unexpected behavior
 function disableDrag(event)
 {
     event.preventDefault();
     event.stopPropagation();
 }
+
+
+// Maintain global clickHeld state
+const toggleClickHeld = () => clickHeld = true;
+const toggleClickUnheld = () => clickHeld = false;
 
 
 // Change the currently selected tool
@@ -231,16 +230,12 @@ function changeTool(event)
 }
 
 
-// Container: Maintain clickHeld state
-function toggleClickHeld() { clickHeld = true; }
-function toggleClickUnheld() { clickHeld = false; }
-
-
 // Generic dialog controls
 const showDialog = event => event.currentTarget.dialog.showModal();
 const closeDialog = event => event.currentTarget.dialog.close();
 
 
+// Create new grid of specified size
 function processGridSize()
 {
     let currentSize;
@@ -258,6 +253,7 @@ function processGridSize()
 }
 
 
+// Store new user-selected color
 function processColor()
 {
     const input = document.querySelector('#input-pen-color');
@@ -265,6 +261,7 @@ function processColor()
 }
 
 
+// Clear current grid to starting state
 function processClear()
 {
     const input = document.querySelector('#input-grid-size');
@@ -284,7 +281,7 @@ function processClear()
 */
 
 
-// Initialize event listeners for Pen, Eraser, Replace buttons
+// Initialize event listeners for Pen, Eraser, Replace
 function initToolSelectButtons()
 {
     for (let tool of ['pen', 'eraser', 'replace'])
@@ -335,7 +332,7 @@ function initDialogControlButtons()
 function initUndoButton()
 {
     const undoButton = document.querySelector('.action-select-undo');
-    undoButton.addEventListener('click', undoAction);
+    undoButton.addEventListener('click', undo);
 }
 
 
@@ -352,6 +349,12 @@ function initialize(gridSize = 16)
     initActionSelectButtons();
     initDialogControlButtons();
     initUndoButton();
+
+    // Set up global event listeners for tracking mouse behavior
+    addEventListener('pointerdown', toggleClickHeld);
+    addEventListener('pointerup', toggleClickUnheld);
+    addEventListener('dragstart', disableDrag);
+    addEventListener('dragend', disableDrag);
 }
 
 
