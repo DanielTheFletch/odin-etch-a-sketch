@@ -21,7 +21,6 @@ let selectedColor = '#000000';
 let selectedTool = { pen: true, eraser: false, replace: false };
 
 // Track user click behavior
-let clickRequired = true;
 let clickHeld = false;
 
 
@@ -275,14 +274,8 @@ initialize();
 // Squares: Listen for pen entering
 function penEnter(event)
 {
-    if (clickRequired)
-    {
-        if (!clickHeld)
-            showHoverPreview(this);
-        else
-            useTool(this);
-    }
-
+    if (!clickHeld)
+        showHoverPreview(this);
     else
         useTool(this);
 
@@ -452,10 +445,3 @@ function closeDialogInfo(event)
 // Container: Maintain clickHeld state
 function toggleClickHeld(event) { clickHeld = true; }
 function toggleClickUnheld(event) { clickHeld = false; }
-
-
-// Pen toggle: Maintain clickRequired state
-function toggleClickRequired(event) { clickRequired = !clickRequired; }
-
-// Eraser toggle: Maintain eraserMode state
-function toggleEraserMode(event) { eraserMode = !eraserMode; }
