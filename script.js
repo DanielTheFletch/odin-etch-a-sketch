@@ -263,6 +263,8 @@ function processColor()
     // Update selected color preview
     const preview = document.querySelector('.action-select-color');
     preview.style.backgroundColor = selectedColor;
+    const infoPreview = document.querySelector('.fa-square');
+    infoPreview.style.color = selectedColor;
 }
 
 

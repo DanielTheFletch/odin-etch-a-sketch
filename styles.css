@@ -140,6 +140,9 @@ main {
   opacity: 100%;
 }
 
+.fa-square {
+  color: #000000;
+}
 
 
 /* --- CANVAS & DRAWING --- */
