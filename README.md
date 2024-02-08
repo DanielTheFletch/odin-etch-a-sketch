@@ -19,6 +19,7 @@ not optimized for mobile viewing. View on desktop for the intended user experien
 
 ## Technologies Used
 
+- HTML / CSS
 - JavaScript
 
 ## Credits
