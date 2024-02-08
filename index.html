@@ -19,37 +19,43 @@
       <div class="menu">
         <h1 class="title">Etched & Sketched</h1>
 
-        <!-- Tool select -->
-        <ul class="menu-buttons menu-buttons-tools">
-          <li class="menu-button tool-select tool-select-pen toggle-on">
-            <span class="fa-solid fa-pen"></span>
-          </li>
-          <li class="menu-button tool-select tool-select-eraser toggle-off">
-            <span class="fa-solid fa-eraser"></span>
-          </li>
-          <li class="menu-button tool-select tool-select-replace toggle-off">
-            <span class="fa-solid fa-droplet"></span>
-          </li>
-        </ul>
+        <div class="all-buttons">
+          <!-- Tool select -->
+          <ul class="menu-buttons menu-buttons-tools">
+            <li class="menu-button tool-select tool-select-pen toggle-on">
+              <span class="fa-solid fa-pen"></span>
+            </li>
+            <li class="menu-button tool-select tool-select-eraser toggle-off">
+              <span class="fa-solid fa-eraser"></span>
+            </li>
+            <li class="menu-button tool-select tool-select-replace toggle-off">
+              <span class="fa-solid fa-droplet"></span>
+            </li>
+          </ul>
 
-        <!-- Action select -->
-        <ul class="menu-buttons menu-buttons-actions">
-          <li class="menu-button action-select action-select-grid-size">
-            <span class="fa-solid fa-expand"></span>
-          </li>
-          <li class="menu-button action-select action-select-clear">
-            <span class="fa-solid fa-trash"></span>
-          </li>
-          <li class="menu-button action-select action-select-color">
-            <span class="fa-solid fa-palette"></span>
-          </li>
-          <li class="menu-button action-select action-select-undo">
-            <span class="fa-solid fa-rotate-left"></span>
-          </li>
-          <li class="menu-button action-select action-select-info">
-            <span class="fa-regular fa-circle-question"></span>
-          </li>
-        </ul>
+          <!-- Action select -->
+          <ul class="menu-buttons menu-buttons-actions">
+            <li class="menu-button action-select action-select-grid-size">
+              <span class="fa-solid fa-expand"></span>
+            </li>
+            <li class="menu-button action-select action-select-clear">
+              <span class="fa-solid fa-trash"></span>
+            </li>
+            <li class="menu-button action-select action-select-color">
+              <span class="fa-solid fa-palette"></span>
+            </li>
+            <li class="menu-button action-select action-select-info">
+              <span class="fa-regular fa-circle-question"></span>
+            </li>
+          </ul>
+
+          <!-- Undo -->
+          <ul class="menu-buttons menu-buttons-undo">
+            <li class="menu-button action-select action-select-undo">
+              <span class="fa-solid fa-rotate-left"></span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- Dialog: Change grid size -->
@@ -58,7 +64,10 @@
         <form method="dialog">
           <label for="input-grid-size">Grid size: </label>
           <input id="input-grid-size" type="text" autocomplete="off">
-          <button class="dialog-button dialog-button-grid-size">Submit</button>
+          <div class="dialog-buttons">
+            <button class="dialog-button dialog-button-confirm confirm-grid-size">Confirm</button>
+            <button class="dialog-button dialog-button-cancel">Cancel</button>
+          </div>
         </form>
       </dialog>
 
@@ -68,7 +77,10 @@
         <form method="dialog">
           <label for="input-pen-color">Select color: </label>
           <input id="input-pen-color" type="color" autocomplete="off">
-          <button class="dialog-button dialog-button-color">Submit</button>
+          <div class="dialog-buttons">
+            <button class="dialog-button dialog-button-confirm confirm-pen-color">Confirm</button>
+            <button class="dialog-button dialog-button-cancel">Cancel</button>
+          </div>
         </form>
       </dialog>
 
@@ -76,8 +88,10 @@
       <dialog id="dialog-clear">
         <p>Clearing the canvas cannot be undone. Would you still like to continue?</p>
         <form method="dialog">
-          <button class="dialog-button dialog-button-clear-confirm">Confirm</button>
-          <button class="dialog-button dialog-button-clear-cancel">Cancel</button>
+          <div class="dialog-buttons">
+            <button class="dialog-button dialog-button-confirm confirm-clear-canvas">Confirm</button>
+            <button class="dialog-button dialog-button-cancel confirm-clear-canvas">Cancel</button>
+          </div>
         </form>
       </dialog>
 
@@ -93,7 +107,9 @@
           <li>Thing 4</li>
           <li>Thing 5</li>
         </ul>
-        <button class="dialog-button dialog-button-info">Close</button>
+        <div class="dialog-buttons">
+          <button class="dialog-button dialog-button-cancel">Close</button>
+        </div>
       </dialog>
     </header>
 

@@ -298,33 +298,31 @@ function initActionSelectButtons()
 {
     for (let action of ['grid-size', 'clear', 'color', 'info'])
     {
+        // Buttons for opening dialog
         const actionButton = document.querySelector(`.action-select-${action}`);
         actionButton.dialog = document.querySelector(`#dialog-${action}`);
         actionButton.addEventListener('click', showDialog);
+
+        // Buttons for closing dialog
+        const cancelButton = document.querySelector(`#dialog-${action} .dialog-button-cancel`);
+        cancelButton.dialog = document.querySelector(`#dialog-${action}`);
+        cancelButton.addEventListener('click', closeDialog);
     }
 }
 
 
 // Event listeners: Dialog controls
-function initDialogControlButtons()
+function initDialogConfirmButtons()
 {
     // Retrieve buttons
-    const confirmGridSize = document.querySelector('.dialog-button-grid-size');
-    const confirmColor = document.querySelector('.dialog-button-color');
-    const confirmClear = document.querySelector('.dialog-button-clear-confirm');
-    const closeClear = document.querySelector('.dialog-button-clear-cancel');
-    const closeInfo = document.querySelector('.dialog-button-info');
+    const confirmGridSize = document.querySelector('.confirm-grid-size');
+    const confirmColor = document.querySelector('.confirm-pen-color');
+    const confirmClear = document.querySelector('.confirm-clear-canvas');
 
     // Add event listeners for buttons that require processing of user selection
     confirmGridSize.addEventListener('click', processGridSize);
     confirmColor.addEventListener('click', processColor);
-    confirmClear.addEventListener('click', processClear);
-
-    // Add event listeners for buttons that just close dialog
-    closeClear.dialog = document.querySelector('#dialog-clear');
-    closeInfo.dialog = document.querySelector('#dialog-info');
-    closeClear.addEventListener('click', closeDialog);
-    closeInfo.addEventListener('click', closeDialog);
+    confirmClear.addEventListener('click', processClear);  
 }
 
 
@@ -347,7 +345,7 @@ function initialize(gridSize = 16)
     // Set up event listeners for menu/dialog buttons
     initToolSelectButtons();
     initActionSelectButtons();
-    initDialogControlButtons();
+    initDialogConfirmButtons();
     initUndoButton();
 
     // Set up global event listeners for tracking mouse behavior
