@@ -242,7 +242,7 @@ function processGridSize()
     const input = document.querySelector('#input-grid-size');
     const newSize = parseInt(input.value);
 
-    if (newSize && newSize > 0 && newSize <= 100)
+    if (newSize && newSize > 0 && newSize <= 50)
     {
         clearGrid();
         createGrid(newSize);
