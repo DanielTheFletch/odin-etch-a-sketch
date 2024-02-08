@@ -45,7 +45,7 @@
               <span class="fa-solid fa-palette"></span>
             </li>
             <li class="menu-button action-select action-select-info">
-              <span class="fa-regular fa-circle-question"></span>
+              <span class="fa-solid fa-circle-question"></span>
             </li>
           </ul>
 
@@ -97,15 +97,18 @@
 
       <!-- Dialog: Show application info -->
       <dialog id="dialog-info">
-        <h2>This is an information dialog.</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic tenetur accusantium, iusto veritatis possimus vero, similique suscipit esse atque aspernatur perspiciatis officia sint blanditiis in tempore, aliquam praesentium corporis facere.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis aspernatur voluptate dolores iusto autem, veniam pariatur sunt doloribus aliquam eius modi, vitae nisi nulla molestiae repellendus dolor sapiente accusantium fugit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit assumenda repellat, ratione ipsum recusandae rerum? Odit, eligendi! Distinctio officiis totam, quia sint, quidem enim tempore reiciendis aliquam reprehenderit porro inventore.</p>
+        <h2>How to use</h2>
+        <p>Below is a brief guide on how to use the various tools and features of Etched & Sketched.</p>
         <ul>
-          <li>Thing 1</li>
-          <li>Thing 2</li>
-          <li>Thing 3</li>
-          <li>Thing 4</li>
-          <li>Thing 5</li>
+          <li><span class="bold">Pen tool</span> &nbsp;( <span class="fa-solid fa-pen"></span> )&nbsp; &mdash; When selected, click any square to fill it with the selected color. Click and drag to color multiple squares quickly.</li>
+          <li><span class="bold">Eraser tool</span> &nbsp;( <span class="fa-solid fa-eraser"></span> )&nbsp; &mdash; When selected, click any square to reset it to its default white color. Click and drag to erase multiple squares quickly.</li>
+          <li><span class="bold">Replace tool</span> &nbsp;( <span class="fa-solid fa-droplet"></span> )&nbsp; &mdash; When selected, click any square to fill it <span class="italic">and</span> all matching squares with the selected color.</li>
+          <div class="divider"></div>
+          <li><span class="bold">Change color</span> &nbsp;( <span class="fa-solid fa-palette"></span> )&nbsp; &mdash; Change the selected color for use with the Pen and Replace tools. Defaults to black.</li>
+          <li><span class="bold">Change grid size</span> &nbsp;( <span class="fa-solid fa-expand"></span> )&nbsp; &mdash; Change the size of the canvas to any square size between 1x1 and 100x100. Defaults to 16x16.</li>
+          <li><span class="bold">Clear canvas</span> &nbsp;( <span class="fa-solid fa-trash"></span> )&nbsp; &mdash; Remove all content from current canvas. Cannot be undone.</li>
+          <li><span class="bold">Help</span> &nbsp;( <span class="fa-solid fa-circle-question"></span> )&nbsp; &mdash; Open this help dialog.</li>
+          <li><span class="bold">Undo</span> &nbsp;( <span class="fa-solid fa-rotate-left"></span> )&nbsp; &mdash; Undo a previous Pen, Eraser, or Replace action.</li>
         </ul>
         <div class="dialog-buttons">
           <button class="dialog-button dialog-button-cancel">Close</button>

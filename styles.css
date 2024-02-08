@@ -27,12 +27,6 @@ body {
   padding: 0;
 }
 
-main {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-
 h1 {
   font-family: var(--font-title);
   font-size: 2rem;
@@ -41,6 +35,21 @@ h1 {
   padding: 0;
   text-shadow: 5px 5px 2.5px black;
 }
+
+main {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.italic {
+  font-style: italic;
+}
+
 
 
 /* --- MENU BAR --- */
@@ -131,7 +140,7 @@ h1 {
 
 /* --- DIALOG POPUPS --- */
 dialog {
-  background-color: var(--color-background);
+  background-color: #ffffff;
   border: none;
   border-radius: 2.25em;
   box-shadow: 3px 3px 5px #000000a0;
@@ -139,7 +148,7 @@ dialog {
   max-width: 50vw;
 }
 
-dialog p, dialog h2, dialog form {
+dialog > * {
   margin-left: 5%;
   margin-right: 5%;
 }
@@ -172,4 +181,20 @@ dialog p, dialog h2, dialog form {
 
 .dialog-button-cancel {
   background-color: var(--color-separator);
+}
+
+dialog > ul {
+  list-style: none;
+  padding: 0;
+}
+
+dialog > ul > li {
+  margin-bottom: 18px;
+}
+
+.divider {
+  border: 1.25px solid var(--color-separator);
+  margin-bottom: 18px;
+  padding: 0;
+  width: 100%;
 }
