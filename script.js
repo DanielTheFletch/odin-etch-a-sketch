@@ -238,7 +238,7 @@ const closeDialog = event => event.currentTarget.dialog.close();
 // Create new grid of specified size
 function processGridSize()
 {
-    let currentSize;
+    let currentSize = Math.sqrt(squares.length);
     const input = document.querySelector('#input-grid-size');
     const newSize = parseInt(input.value);
 
