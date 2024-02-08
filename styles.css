@@ -120,6 +120,27 @@ main {
   background-color: var(--color-highlight);
 }
 
+.color-picker {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-select-color {
+  background-color: #000000;
+  border: 2.5px solid var(--color-background);
+  border-radius: 7.25%;
+  box-shadow: 3px 3px 7.5px #000000;
+  width: 3em;
+  height: 1.25em;
+}
+
+.action-select-color:hover {
+  opacity: 100%;
+}
+
+
 
 /* --- CANVAS & DRAWING --- */
 .container {
