@@ -256,8 +256,13 @@ function processGridSize()
 // Store new user-selected color
 function processColor()
 {
+    // Store selected color
     const input = document.querySelector('#input-pen-color');
     selectedColor = input.value;
+
+    // Update selected color preview
+    const preview = document.querySelector('.action-select-color');
+    preview.style.backgroundColor = selectedColor;
 }
 
 
