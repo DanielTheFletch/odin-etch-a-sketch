@@ -56,24 +56,12 @@
         </div>
       </div>
 
-      <!-- Dialog: Change grid size -->
-      <dialog id="dialog-grid-size">
-        <p>Enter a new size for the grid between 1-100.</p>
-        <form method="dialog">
-          <label for="input-grid-size">Grid size: </label>
-          <input id="input-grid-size" type="text" autocomplete="off">
-          <div class="dialog-buttons">
-            <button class="dialog-button dialog-button-confirm confirm-grid-size">Confirm</button>
-            <button class="dialog-button dialog-button-cancel">Cancel</button>
-          </div>
-        </form>
-      </dialog>
-
-      <!-- Dialog: Change pen color -->
+      <!-- Dialog: Change selected color -->
       <dialog id="dialog-color">
-        <p>Enter a new pen color to use on the canvas.</p>
+        <h2>Change color</h2>
+        <p>Select a color to use on the canvas.</p>
         <form method="dialog">
-          <label for="input-pen-color">Select color: </label>
+          <label for="input-pen-color">Select color:</label>&nbsp;&nbsp;
           <input id="input-pen-color" type="color" autocomplete="off">
           <div class="dialog-buttons">
             <button class="dialog-button dialog-button-confirm confirm-pen-color">Confirm</button>
@@ -82,9 +70,24 @@
         </form>
       </dialog>
 
+      <!-- Dialog: Change grid size -->
+      <dialog id="dialog-grid-size">
+        <h2>Change grid size</h2>
+        <p>Enter a new size for the grid between <code>1x1</code> &ndash; <code>100x100</code>. Current canvas work will be lost.</p>
+        <form method="dialog">
+          <label for="input-grid-size">Grid size:</label>&nbsp;&nbsp;
+          <input id="input-grid-size" maxlength="3" size="6" type="text" autocomplete="off"><span> rows and columns</span>
+          <div class="dialog-buttons">
+            <button class="dialog-button dialog-button-confirm confirm-grid-size">Confirm</button>
+            <button class="dialog-button dialog-button-cancel">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+
       <!-- Dialog: Confirm clear canvas -->
       <dialog id="dialog-clear">
-        <p>Clearing the canvas cannot be undone. Would you still like to continue?</p>
+        <h2>Clear canvas</h2>
+        <p>Clearing the canvas cannot be undone. Continue anyway?</p>
         <form method="dialog">
           <div class="dialog-buttons">
             <button class="dialog-button dialog-button-confirm confirm-clear-canvas">Confirm</button>
@@ -95,19 +98,18 @@
 
       <!-- Dialog: Show application info -->
       <dialog id="dialog-info">
-        <h2>How to use</h2>
-        <p>Below is a brief guide on how to use the various tools and features of Etched & Sketched.</p>
+        <h2>Usage guide</h2>
         <ul>
-          <li><span class="bold">Change color</span> &nbsp;( <span class="fa-solid fa-square"></span> )&nbsp; &mdash; Change the selected color for use with the Pen and Replace tools. Defaults to black.</li>
+          <li><span class="bold">Change color</span> &nbsp;( <span class="fa-solid fa-square"></span> )&nbsp; &mdash; Change the selected color for use with the Pencil and Droplet tools. Defaults to black.</li>
           <div class="divider"></div>
           <li><span class="bold">Pencil tool</span> &nbsp;( <span class="fa-solid fa-pencil"></span> )&nbsp; &mdash; When selected, click any square to fill it with the selected color. Click and drag to color multiple squares quickly.</li>
           <li><span class="bold">Eraser tool</span> &nbsp;( <span class="fa-solid fa-eraser"></span> )&nbsp; &mdash; When selected, click any square to reset it to its default white color. Click and drag to erase multiple squares quickly.</li>
           <li><span class="bold">Droplet tool</span> &nbsp;( <span class="fa-solid fa-droplet"></span> )&nbsp; &mdash; When selected, click any square to fill it <span class="italic">and</span> all matching squares with the selected color.</li>
           <div class="divider"></div>
-          <li><span class="bold">Change grid size</span> &nbsp;( <span class="fa-solid fa-expand"></span> )&nbsp; &mdash; Change the size of the canvas to any square size between 1x1 and 100x100. Defaults to 16x16.</li>
+          <li><span class="bold">Change grid size</span> &nbsp;( <span class="fa-solid fa-expand"></span> )&nbsp; &mdash; Change the size of the canvas, clearing the current canvas in the process. Defaults to <code>16x16</code>. Cannot be undone.</li>
           <li><span class="bold">Clear canvas</span> &nbsp;( <span class="fa-solid fa-trash"></span> )&nbsp; &mdash; Remove all content from current canvas. Cannot be undone.</li>
-          <li><span class="bold">Help</span> &nbsp;( <span class="fa-solid fa-circle-question"></span> )&nbsp; &mdash; Open this help dialog.</li>
-          <li><span class="bold">Undo</span> &nbsp;( <span class="fa-solid fa-rotate-left"></span> )&nbsp; &mdash; Undo a previous Pen, Eraser, or Replace action.</li>
+          <li><span class="bold">Usage guide</span> &nbsp;( <span class="fa-solid fa-circle-question"></span> )&nbsp; &mdash; Open this help dialog.</li>
+          <li><span class="bold">Undo</span> &nbsp;( <span class="fa-solid fa-rotate-left"></span> )&nbsp; &mdash; Undo a previous Pencil, Eraser, or Droplet action.</li>
         </ul>
         <div class="dialog-buttons">
           <button class="dialog-button dialog-button-cancel">Close</button>
@@ -119,9 +121,5 @@
       <!-- Main canvas -->
       <div class="container"></div>
     </main>
-
-    <footer>
-      <!-- Footer placeholder -->
-    </footer>
   </body>
 </html>
